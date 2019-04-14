@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="何言丝竹">
+    <meta name="keyword" content="NLP,机器翻译,深度学习">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/images/favicon3.png">
+    <link rel="alternate" type="application/atom+xml" title="Boxiao" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        CNN 多通道卷积核 channel and conv｜Boxiao&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="http://xinghanzzy.github.io/2019/04/11/CNN channel and conv/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('/images/lion-blur-bg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost="true" data-istags="false
+" data-ishome="false">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Boxiao
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img" src="nullimg/ind123123ex.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('img/ind123123ex.jpg?imageView2/1/w/1400/h/400/interlace/1/q/90')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>CNN 多通道卷积核 channel and conv</h1>
+                    
+                    <h2 class="subheading">多通道卷积计算理解</h2>
+                    
+                    <span class="meta">
+                         作者 XH
+                        <span>
+                          日期 2019-04-11
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#深度学习" title="深度学习">深度学习</a>
+                        
+                        <a class="tag" href="/tags/#CNN" title="CNN">CNN</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            CNN 多通道卷积核 channel and conv
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <blockquote>
+<p>自己看的记录笔记</p>
+<p>写的很差 勿看</p>
+<p>参考文献</p>
+<p>好多博客都是类似的内容 希望没有写错</p>
+<p><a href="https://blog.csdn.net/jacke121/article/details/80188821" target="_blank" rel="noopener">https://blog.csdn.net/jacke121/article/details/80188821</a> </p>
+<p><a href="https://blog.csdn.net/haoji007/article/details/81981846" target="_blank" rel="noopener">https://blog.csdn.net/haoji007/article/details/81981846</a> </p>
+</blockquote>
+<h1 id="CNN-多通道卷积计算理解"><a href="#CNN-多通道卷积计算理解" class="headerlink" title="CNN 多通道卷积计算理解"></a>CNN 多通道卷积计算理解</h1><p>对于单通道图像，若利用10个卷积核进行卷积计算，可以得到10个特征图；若输入为多通道图像，则输出特征图的个数依然是卷积核的个数（10个）。 </p>
+<p>以图片来举例：假设图片的宽度为width:W，高度为height:H，图片的通道数为D，一般目前都用RGB三通道D=3，为了通用性，通道数用D表示； </p>
+<p>卷积核：卷积核大小为K*K，由于处理的图片是D通道的，因此卷积核其实也就是K*K*D大小的，因此，对于RGB三通道图像，在指定kernel_size的前提下，真正的卷积核大小是kernel_size<em>kernel_size\</em>3。 </p>
+<p><strong>对于D通道图像的各通道而言，是在每个通道上分别执行二维卷积，然后将D个通道加起来，得到该位置的二维卷积输出</strong></p>
+<p>对于RGB三通道图像而言，就是在R，G，B三个通道上分别使用对应的每个通道上的kernel_size*kernel_size大小的核去卷积每个通道上的W*H的图像，然后将三个通道卷积得到的输出相加，得到二维卷积输出结果。因此，若有M个卷积核，可得到M个二维卷积输出结果，在有padding的情况下，能保持输出图片大小和原来的一样，因此是output(W,H,M)。</p>
+<p>下面的图动态形象地展示了三通道图像卷积层的计算过程：</p>
+<p>下图是7<em>7</em>3的图像，3通道，有2个3<em>3</em>3的卷积核，也称3*2=6个卷积核</p>
+<p><img src="https://segmentfault.com/img/bVW1tf?w=860&amp;h=690" alt="å¾çæè¿°"> </p>
+<p>有教程为7<em>7</em>M通道的图片，输出通道是n，则卷积核共m*n个卷积核。</p>
+<p>原版动图地址：</p>
+<p><a href="http://cs231n.github.io/convolutional-networks/" target="_blank" rel="noopener">http://cs231n.github.io/convolutional-networks/</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">四个通道上的卷积操作:</span><br><span class="line">	有两个卷积核，生成两个通道。</span><br><span class="line">	其中需要注意的是，四个通道上每个通道对应一个2*2的卷积核</span><br><span class="line">	这4个2*2的卷积核上的参数是不一样的，之所以说它是1个卷积核，是因为把它看成了一个4*2*2的卷积核，4代表一开始卷积的通道数，2*2是卷积核的尺寸，实际卷积的时候其实就是4个2*2的卷积核（这四个22的卷积核的参数是不同的）分别去卷积对应的4个通道，然后相加，再加上偏置b，注意b对于这四通道而言是共享的，所以b的个数是和最终的featuremap的个数相同的，然后再取激活函数</span><br><span class="line">    </span><br><span class="line">	输出层的卷积核个数为 feature map 的个数。也就是说卷积核的个数=最终的featuremap的个数，卷积核的大小=开始进行卷积的通道数每个通道上进行卷积的二维卷积核的尺寸（此处就是4（2*2）），b（偏置）的个数=卷积核的个数=featuremap的个数。</span><br><span class="line"></span><br><span class="line">4个通道卷积得到2个通道的过程中，参数的数目为4×（2×2）×2+2个，其中4表示4个通道，第一个2*2表示卷积核的大小，第三个2表示生成的featuremap个数，也就是得到的2通道的feature map，也就是生成的通道数，最后的2代表偏置b的个数。</span><br></pre></td></tr></table></figure>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2019/04/14/hello-world/" data-toggle="tooltip" data-placement="top" title="Hello World">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2019/04/08/相对位置 relative position/" data-toggle="tooltip" data-placement="top" title="self-attention 相对位置 relative position.">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#CNN-多通道卷积计算理解"><span class="toc-text">CNN 多通道卷积计算理解</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#深度学习" title="深度学习">深度学习</a>
+                        
+                        <a class="tag" href="/tags/#CNN" title="CNN">CNN</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="https://hellozhaozheng.github.io/">ZZ</a></li>
+                        
+                        <li><a href="http://www.jianshu.com/u/e71990ada2fd">简书·BY</a></li>
+                        
+                        <li><a href="https://apple.com">Apple</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/ehazon">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/1254617623">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://github.com/xinghanzzy">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Boxiao 2019
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://xinghanzzy.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="/images/wangye.jpg">
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+
+</html>

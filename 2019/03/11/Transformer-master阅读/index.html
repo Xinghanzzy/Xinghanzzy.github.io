@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="何言丝竹">
+    <meta name="keyword" content="NLP,机器翻译,深度学习">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/images/favicon3.png">
+    <link rel="alternate" type="application/atom+xml" title="Boxiao" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        Transformer阅读｜Boxiao&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="http://xinghanzzy.github.io/2019/03/11/Transformer-master阅读/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('/images/lion-blur-bg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost="true" data-istags="false
+" data-ishome="false">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Boxiao
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img" src="nullimg/post-bg-2015.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('img/post-bg-2015.jpg?imageView2/1/w/1400/h/400/interlace/1/q/90')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>Transformer阅读</h1>
+                    
+                    <h2 class="subheading">Transformer-master代码阅读</h2>
+                    
+                    <span class="meta">
+                         作者 XH
+                        <span>
+                          日期 2019-03-11
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#NMT" title="NMT">NMT</a>
+                        
+                        <a class="tag" href="/tags/#NLP" title="NLP">NLP</a>
+                        
+                        <a class="tag" href="/tags/#TensorFlow" title="TensorFlow">TensorFlow</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            Transformer阅读
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <blockquote>
+<p><a href="https://xinghanzzy.github.io/">我的的博客</a></p>
+<p><a href="https://blog.csdn.net/mijiaoxiaosan/article/details/74909076" target="_blank" rel="noopener">机器翻译模型Transformer代码详细解析</a></p>
+<p><a href="https://github.com/Xinghanzzy/transformer-simple/" target="_blank" rel="noopener">代码地址</a></p>
+</blockquote>
+<h1 id="Transformer"><a href="#Transformer" class="headerlink" title="Transformer"></a>Transformer</h1><p>动机：前几天和同学讨论一下decoder对mask是否有优化，发现自己对tensor shape记得并不好，这两天再过一次 加深一下印象并记录</p>
+<p>代码：17年老代码，好处是写的很简单</p>
+<h2 id="数据预处理-prepro"><a href="#数据预处理-prepro" class="headerlink" title="数据预处理 prepro"></a>数据预处理 prepro</h2><ol>
+<li>洗数据：去除非拉丁字符 </li>
+<li>词频统计，$Counter()$，降序</li>
+<li>“<pad>“, “<unk>“, “<s>“, “</s>“，文件开头，数量1000000000</unk></pad></li>
+</ol>
+<h2 id="train"><a href="#train" class="headerlink" title="train"></a>train</h2><ul>
+<li><p>加载词表，$2*2$个list，$lang2idx，idx2lang$</p>
+</li>
+<li><p>构图</p>
+<ul>
+<li><p>默认图</p>
+</li>
+<li><p>读取数据batch，输出为ont-hot idx</p>
+<blockquote>
+<p>input : none</p>
+<p>output : (N, T)     </p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># N：batch_size  T:maxlen 最大句长</span></span><br><span class="line">self.x, self.y, self.num_batch = get_batch_data() <span class="comment"># (N, T) 		</span></span><br><span class="line">	lang2idx，idx2lang</span><br><span class="line">	word2idx: OOV-&gt;"&lt;UNK&gt;"(1) 句尾+&lt;/S&gt;</span><br><span class="line">    <span class="comment"># x和y后面pad上x和y初始元素个数和句子最大长度差的那么多数值 0</span></span><br><span class="line">    <span class="comment"># pad 垫，填补</span></span><br><span class="line">	PAD:补全<span class="number">0</span>，maxlen</span><br><span class="line">    num_batch = len(X) // hp.batch_size <span class="comment"># 整除</span></span><br><span class="line">    <span class="comment"># Create Queues</span></span><br><span class="line">    input_queues = tf.train.slice_input_producer([X, Y])</span><br><span class="line">    x, y = tf.train.shuffle_batch</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>decoder input : 句尾去掉&lt;\S&gt;句首+ <s> (2)</s></p>
+<blockquote>
+<p>input :  (N, T) </p>
+<p>output : (N, T) </p>
+</blockquote>
+</li>
+<li><p>$2*2$个list，$lang2idx，idx2lang$</p>
+</li>
+<li><p>$encoder$</p>
+<blockquote>
+<p>input :  (N, T) </p>
+<p>output : (N, T, num_units)   # num_units:隐层大小</p>
+</blockquote>
+<ul>
+<li><p>embedding</p>
+<blockquote>
+<p>input :  (N, T) </p>
+<p>output : (N, T, num_units)\</p>
+</blockquote>
+<p>建立 $lookup_table$ (vocab_size, num_units)</p>
+<p>zero_pad:第一行置0</p>
+<p>tf.nn.embedding_lookup(lookup_table, inputs)</p>
+<p>这里推测输出 inputs中idx对应的vector组成的tensor(N, T, num_units)</p>
+<p>缩放：scale  $outputs * (\sqrt{ num_units })$</p>
+</li>
+<li><p>positional_encoding</p>
+<p>sin cos 常量 或者 调用embedding</p>
+</li>
+<li><p>dropout</p>
+<p>​    0，其他缩放1/(1-rate)</p>
+<p>​    maybe 可训练更新</p>
+</li>
+<li><p>6层attention encoder self-attention</p>
+<blockquote>
+<p>input :  (N, T, num_units)   </p>
+<p>output : (N, T, num_units)</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">multihead_attention(queries=self.enc, keys=self.enc, num_units=hp.hidden_units, num_heads=hp.num_heads, dropout_rate=hp.dropout_rate, is_training=is_training, causality=<span class="literal">False</span>)</span><br><span class="line">    Q K V = dense num_units relu <span class="comment"># (N, T_q, C) (N, T_k, C) (N, T_k, C)</span></span><br><span class="line">    Q_ K_ V_ =	最后一维拆head分，在第一维拼接cat <span class="comment"># (h*N, T_q, C/h) (h*N, T_k, C/h)  </span></span><br><span class="line">    Q_ matmul V_  <span class="comment"># (h*N, T_q, T_k)  矩阵乘法 Q 乘 k 转置</span></span><br><span class="line">    scale：outputs / (num_units)**<span class="number">0.5</span></span><br><span class="line">    Key Masking</span><br><span class="line">     生成矩阵，key中最后一维加<span class="number">0</span>的变为无穷小 <span class="number">-2</span>**<span class="number">32</span>+<span class="number">1</span> <span class="comment"># (h*N, T_q, T_k)</span></span><br><span class="line">    <span class="comment"># causality参数告知我们是否屏蔽未来序列的信息</span></span><br><span class="line">        <span class="comment"># 首先定义一个和outputs后两维的shape相同shape（T_q,T_k）的一个张量（矩阵）。 </span></span><br><span class="line">        <span class="comment"># 然后将该矩阵转为三角阵tril。三角阵中，对于每一个T_q,</span></span><br><span class="line">        <span class="comment"># 凡是那些大于它角标的T_k值全都为</span></span><br><span class="line">        <span class="comment"># 0，这样作为mask就可以让query只取它之前的key（self attention中query即key）。</span></span><br><span class="line">        <span class="comment"># 由于该规律适用于所有query，接下来仍用tile扩展堆叠其第一个维度，构成masks，</span></span><br><span class="line">        <span class="comment"># shape为(h*N, T_q,T_k).</span></span><br><span class="line">    softmax</span><br><span class="line">    Query Masking <span class="comment"># (h*N, T_q, T_k)</span></span><br><span class="line">    dropout</span><br><span class="line">    outputs = tf.matmul(outputs, V_) <span class="comment"># ( h*N, T_q, C/h)</span></span><br><span class="line">    concat <span class="comment"># (N, T_q, C)</span></span><br><span class="line">    +querys <span class="comment"># residual</span></span><br><span class="line">    normalize <span class="comment"># 随训练会变</span></span><br><span class="line">feedforward()</span><br><span class="line">	两层卷积之间加了relu非线性操作。</span><br><span class="line">    之后是residual操作加上inputs残差</span><br><span class="line">    然后是normalize</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>$decoder$</p>
+<ul>
+<li><p>word embedding </p>
+</li>
+<li><p>positional embedding </p>
+</li>
+<li><p>dropout  # (N, T_q, C)</p>
+</li>
+<li><p>6层attention decoder self-attention  encoder-decoder attention</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">self:</span><br><span class="line">	causality参数为<span class="literal">True</span>，以屏蔽未来的信息</span><br><span class="line">e-d:</span><br><span class="line">	query:decoder</span><br><span class="line">	keys: encoder</span><br><span class="line">	<span class="comment"># causality设置为False 解码器中的信息都可以被用到</span></span><br><span class="line">feedforward:</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>准确率 acc</p>
+</li>
+<li><p>smooth</p>
+<p>​    self.y转为one_hot之后用module中定义的label_smoothing函数进行平滑操作 </p>
+<p>​    ((1-epsilon) * inputs) + (epsilon / K) ：0-&gt;很小的树 1-&gt;接近1的数</p>
+</li>
+<li><p>loss：</p>
+<p>​     预测值 和 平滑后的lable 交叉熵</p>
+</li>
+</ul>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2019/03/11/Softmax and Normalization/" data-toggle="tooltip" data-placement="top" title="Softmax and Normalization">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2019/03/11/FFN MLP dense 权重矩阵 全连接/" data-toggle="tooltip" data-placement="top" title="FFN MLP dense 权重矩阵 全连接">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Transformer"><span class="toc-text">Transformer</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据预处理-prepro"><span class="toc-text">数据预处理 prepro</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#train"><span class="toc-text">train</span></a></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#NMT" title="NMT">NMT</a>
+                        
+                        <a class="tag" href="/tags/#NLP" title="NLP">NLP</a>
+                        
+                        <a class="tag" href="/tags/#TensorFlow" title="TensorFlow">TensorFlow</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="https://hellozhaozheng.github.io/">ZZ</a></li>
+                        
+                        <li><a href="http://www.jianshu.com/u/e71990ada2fd">简书·BY</a></li>
+                        
+                        <li><a href="https://apple.com">Apple</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/ehazon">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/1254617623">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://github.com/xinghanzzy">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Boxiao 2019
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://xinghanzzy.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="/images/wangye.jpg">
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+
+</html>

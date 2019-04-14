@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="何言丝竹">
+    <meta name="keyword" content="NLP,机器翻译,深度学习">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/images/favicon3.png">
+    <link rel="alternate" type="application/atom+xml" title="Boxiao" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        self-attention 相对位置 relative position.｜Boxiao&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="http://xinghanzzy.github.io/2019/04/08/相对位置 relative position/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('/images/lion-blur-bg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost="true" data-istags="false
+" data-ishome="false">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Boxiao
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img" src="nullimg/home-bg-o.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('img/home-bg-o.jpg?imageView2/1/w/1400/h/400/interlace/1/q/90')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>self-attention 相对位置 relative position.</h1>
+                    
+                    <h2 class="subheading">Self-Attention with Relative Position Representations</h2>
+                    
+                    <span class="meta">
+                         作者 XH
+                        <span>
+                          日期 2019-04-08
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#NMT" title="NMT">NMT</a>
+                        
+                        <a class="tag" href="/tags/#Transformer" title="Transformer">Transformer</a>
+                        
+                        <a class="tag" href="/tags/#深度学习" title="深度学习">深度学习</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            self-attention 相对位置 relative position.
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <blockquote>
+<p>自己看的记录笔记</p>
+<p>写的很差 勿看</p>
+<p>参考文献</p>
+<p><a href="https://blog.csdn.net/luoxiaolin_love/article/details/82258069" target="_blank" rel="noopener">https://blog.csdn.net/luoxiaolin_love/article/details/82258069</a> </p>
+</blockquote>
+<h1 id="相对位置"><a href="#相对位置" class="headerlink" title="相对位置"></a>相对位置</h1><p>NAACL 2018的论文 </p>
+<p>读论文读的太少了</p>
+<blockquote>
+<p>作者认为正弦余弦位置向量效果是比可学习的更好的，因为他可以看到训练中未见到的序列长度</p>
+<p>self attention中增加位置感知，考虑输入元素之间的成对关系 ，窗口 不用全看 多一个参与学习的矩阵 </p>
+<p>对于长度为n的，有h个attention heads的序列，通过在每个head上共享相对位置表示 </p>
+<p>why 相对位置：输入元素间的成对关系</p>
+</blockquote>
+<h2 id="1-Transformer"><a href="#1-Transformer" class="headerlink" title="1. Transformer"></a>1. Transformer</h2><p>Transformer采用由堆叠编码器和解码器层组成的编码器-解码器结构。编码器层由两个子层组成：self-attention层，然后是一个位置感知的前馈层。解码器层由三个子层组成：self-attention，然后是编码器-解码器attention，然后是一个位置感知的前馈层。它使用每个子层周围的残差连接，然后再进行层归一化。解码器在其self-attention中使用掩码以防止给定的输出位置在训练期间包含关于未来输出位置的信息。</p>
+<p>在第一层之前，在编码器和解码器输入元件中添加基于频率变化的正弦信号的位置编码。与学习的绝对位置表示相比，<strong>作者假设正弦波位置编码将帮助模型推广到训练过程中未见的序列长度，使它能够学习参加相对位置，这一性质是由作者的相对位置表示所共有的</strong>，与绝对位置表示相比，相对位置表示与总序列长度是不一致的。</p>
+<p> 残差连接有助于将位置信息传播到更高的层。</p>
+<p>修剪最大距离还使模型能够推广到训练期间未观察到的序列长度。因此，作者考虑2k+1唯一的边缘标签 </p>
+<hr>
+<h2 id="CSDN-博客"><a href="#CSDN-博客" class="headerlink" title="CSDN 博客"></a>CSDN 博客</h2><p>在《Attention Is All You Need》基础上，对position encodeing进行了优化。在《Attention Is All You Need》中采用的position encoding的方式，没有考虑到词与词之间的距离。因此本文提出一个位置向量表示<img src="https://img-blog.csdn.net/20180831183033560?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2x1b3hpYW9saW5fbG92ZQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img">与<img src="https://img-blog.csdn.net/20180831183102452?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2x1b3hpYW9saW5fbG92ZQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img">，分别表示输入序列第i个元素与第j个元素的Key和Value对应的位置向量。因此，输出元素zi的计算为：</p>
+<p><img src="https://img-blog.csdn.net/20180831183256789?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2x1b3hpYW9saW5fbG92ZQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p>
+<p><img src="https://img-blog.csdn.net/20180831183325257?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2x1b3hpYW9saW5fbG92ZQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p>
+<p><img src="https://img-blog.csdn.net/20180831183336288?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2x1b3hpYW9saW5fbG92ZQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p>
+<p>​      对于现行序列，本文边可以捕获输入元素之间相对位置的差异性。因为本文假设一定距离之外精确的相对位置信息在是无用的，所以只考虑最大相对位置为k的情况。这种使用j-i的形式，可以处理在训练集中没有见过的序列长度。(之前的方法应该存在这个问题，不能处理比训练数据更长的数据)</p>
+<p><img src="https://img-blog.csdn.net/20180831183613197?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2x1b3hpYW9saW5fbG92ZQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p>
+<p>而 <img src="https://img-blog.csdn.net/20180831183033560?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2x1b3hpYW9saW5fbG92ZQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img">与<img src="https://img-blog.csdn.net/20180831183102452?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2x1b3hpYW9saW5fbG92ZQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img">的计算如下：</p>
+<p><img src="https://img-blog.csdn.net/20180831183939962?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2x1b3hpYW9saW5fbG92ZQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2019/04/11/CNN channel and conv/" data-toggle="tooltip" data-placement="top" title="CNN 多通道卷积核 channel and conv">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2019/03/18/梯度弥散 梯度爆炸 过拟合/" data-toggle="tooltip" data-placement="top" title="深度学习概念：梯度弥散 梯度爆炸 过拟合 batchsize">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#相对位置"><span class="toc-text">相对位置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Transformer"><span class="toc-text">1. Transformer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CSDN-博客"><span class="toc-text">CSDN 博客</span></a></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#NMT" title="NMT">NMT</a>
+                        
+                        <a class="tag" href="/tags/#Transformer" title="Transformer">Transformer</a>
+                        
+                        <a class="tag" href="/tags/#深度学习" title="深度学习">深度学习</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="https://hellozhaozheng.github.io/">ZZ</a></li>
+                        
+                        <li><a href="http://www.jianshu.com/u/e71990ada2fd">简书·BY</a></li>
+                        
+                        <li><a href="https://apple.com">Apple</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/ehazon">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/1254617623">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://github.com/xinghanzzy">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Boxiao 2019
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://xinghanzzy.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="/images/wangye.jpg">
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+
+</html>
