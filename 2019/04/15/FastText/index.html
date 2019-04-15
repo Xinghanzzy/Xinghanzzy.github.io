@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        Boxiao&#39;s blog
+        FastText｜Boxiao&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="http://xinghanzzy.github.io/tags/BPE/">
+    <link rel="canonical" href="http://xinghanzzy.github.io/2019/04/15/FastText/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -43,7 +43,7 @@
 <!-- hack iOS CSS :active style -->
 <body ontouchstart="" class="animated fadeIn">
 <!-- Navigation -->
-<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost="false" data-istags="true
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost="true" data-istags="false
 " data-ishome="false">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -124,215 +124,158 @@
 
 <!-- Main Content -->
 
+<!--only post-->
 
-<!-- Page Header -->
-<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 visible-xs-block visible-sm-block">
-    <div class="row">
-        <header class="intro-header">
-            <div class="container">
-                <div class="site-heading text-center">
-                    <div class="about-me">
-                        <!--移动端头部显示-->
-                        <img src="/images/wangye.jpg">
-                        <h5><a href="/about/">Boxiao Zhang</a></h5>
-                        <p>Thinking will not overcome fear but action will.</p>
+
+<img class="wechat-title-img" src="/images/post-bg-desk.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/images/post-bg-desk.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>FastText</h1>
+                    
+                    <span class="meta">
+                         作者 Boxiao Zhang
+                        <span>
+                          日期 2019-04-15
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#NLP" title="NLP">NLP</a>
+                        
                     </div>
                 </div>
             </div>
-        </header>
+        </div>
     </div>
-</div>
-<!-- Main Content -->
-<div class="container custom-haojen-container">
-    <!-- Post Container -->
-    <div class="row">
-        <div class="col-lg-8 col-lg-offset-1 col-md-8 col-md-offset-1 col-sm-12 col-xs-12 post-container">
-            <!-- Main Content -->
+    <div class="post-title-haojen">
+        <span>
+            FastText
+        </span>
+    </div>
+</header>
 
-
-
-<div class="post-preview " style="background-image: url('img/post-bg-2015.jpg')">
-    <a href="/2019/03/08/Subword BPE 理解/">
-        <h2 class="post-title">
-            Subword BPE 理解
-        </h2>
-        <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-03-08
-        </p>
-        
-        <h3 class="post-subtitle">
-            Subword 学习记录
-        </h3>
-        
-        <div class="post-content-preview">
-            <p>
-                
-正所谓前人栽树，后人乘凉。
-感谢夏天的米米阳光CSDN
-感谢subword-units
-我的的博客
-
-Subwordlearn BPEBPE词表学习，首先统计词表词频，然后每个单词表示为一个字符序列，并加上一个特殊的词尾标记 
-
- apple eat 这两个的e是不同的
-appale    e..
-            </p>
-        </div>
-    </a>
-
-</div>
-
-<hr>
-
-
-
-
-<!-- 翻页 pager -->
-
-<ul class="pager">
-    
-    
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <blockquote>
+<p><a href="https://blog.csdn.net/john_bh/article/details/79268850" target="_blank" rel="noopener">https://blog.csdn.net/john_bh/article/details/79268850</a> </p>
+</blockquote>
+<h1 id="FastText：快速的文本分类器"><a href="#FastText：快速的文本分类器" class="headerlink" title="FastText：快速的文本分类器"></a>FastText：快速的文本分类器</h1><h1 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h1><p>fasttext是facebook开源的一个词向量与文本分类工具，在2016年开源，典型应用场景是“带监督的文本分类问题”。提供简单而高效的文本分类和表征学习的方法，性能比肩深度学习而且速度更快。</p>
+<p>FastText结合了自然语言处理和机器学习中最成功的理念。这些包括了使用词袋以及n-gram袋表征语句，还有使用子字(subword)信息，并通过隐藏表征在类别间共享信息。我们另外采用了一个softmax层级(利用了类别不均衡分布的优势)来加速运算过程。</p>
+<p>这些不同概念被用于两个不同任务：</p>
+<ul>
+<li><strong>有效文本分类</strong> ：有监督学习</li>
+<li><strong>学习词向量表征</strong>：无监督学习</li>
 </ul>
+<p>举例来说：fastText能够学会“男孩”、“女孩”、“男人”、“女人”指代的是特定的性别，并且能够将这些数值存在相关文档中。然后，当某个程序在提出一个用户请求（假设是“我女友现在在儿？”），它能够马上在fastText生成的文档中进行查找并且理解用户想要问的是有关女性的问题。</p>
+<h1 id="二、FastText原理"><a href="#二、FastText原理" class="headerlink" title="二、FastText原理"></a>二、FastText原理</h1><p>fastText方法包含三部分，<strong>模型架构，层次SoftMax和N-gram特征。</strong></p>
+<h2 id="2-1-模型架构"><a href="#2-1-模型架构" class="headerlink" title="2.1 模型架构"></a>2.1 模型架构</h2><p>fastText的架构和word2vec中的CBOW的架构类似，因为它们的作者都是Facebook的科学家Tomas Mikolov，而且确实fastText也算是words2vec所衍生出来的。</p>
+<p><img src="https://ws1.sinaimg.cn/large/4ac7f217ly1g238wxf4w4j20b005l0t1.jpg" alt></p>
+<p>fastText 模型输入一个词的序列（一段文本或者一句话)，输出这个词序列属于不同类别的概率。 </p>
+<p>序列中的词和词组组成特征向量，特征向量通过线性变换映射到中间层，中间层再映射到标签。 </p>
+<p>fastText 在预测标签时使用了非线性激活函数，但在中间层不使用非线性激活函数。</p>
+<p>fastText 模型架构和 Word2Vec 中的 CBOW 模型很类似。不同之处在于，fastText 预测标签，而 CBOW 模型预测中间词。</p>
+<h2 id="2-2-层次SoftMax"><a href="#2-2-层次SoftMax" class="headerlink" title="2.2 层次SoftMax"></a>2.2 层次SoftMax</h2><p>对于有大量类别的数据集，fastText使用了一个分层分类器（而非扁平式架构）。不同的类别被整合进树形结构中（想象下二叉树而非 list）。在某些文本分类任务中类别很多，计算线性分类器的复杂度高。为了改善运行时间，fastText 模型使用了层次 Softmax 技巧。层次 Softmax 技巧建立在哈弗曼编码的基础上，对标签进行编码，能够极大地缩小模型预测目标的数量。</p>
+<p>fastText 也利用了类别（class）不均衡这个事实（一些类别出现次数比其他的更多），通过使用 Huffman 算法建立用于表征类别的树形结构。因此，频繁出现类别的树形结构的深度要比不频繁出现类别的树形结构的深度要小，这也使得进一步的计算效率更高。 </p>
+<p><img src="https://ws1.sinaimg.cn/large/4ac7f217ly1g239noqvtgj20iz0c0tct.jpg" alt></p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2019/04/15/Word2Vec/" data-toggle="tooltip" data-placement="top" title="Word2Vec">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
 
 
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#FastText：快速的文本分类器"><span class="toc-text">FastText：快速的文本分类器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#一、简介"><span class="toc-text">一、简介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、FastText原理"><span class="toc-text">二、FastText原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-模型架构"><span class="toc-text">2.1 模型架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-层次SoftMax"><span class="toc-text">2.2 层次SoftMax</span></a></li></ol></li></ol>
+                </div>
+            </div>
         </div>
-        <!-- Sidebar Container -->
-        <div class="
-                col-lg-3 col-lg-offset-0
-                col-md-3 col-md-offset-0
-                col-sm-12
-                col-xs-12
-                sidebar-container
-            ">
 
-            <!-- About Me -->
-            <section class="visible-md visible-lg" style="padding: 0 18px">
-                <div class="short-about">
-                    <!--侧边栏头像-->
-                    
-                    <img src="/images/wangye.jpg">
-                    
-                    <h5><a href="/about/">Boxiao Zhang</a></h5>
-                    
-                    <p>Thinking will not overcome fear but action will.</p>
-                    
-                    <hr>
-                    <!-- SNS Link 社交 -->
-                    <ul class="list-inline">
-                        
-                        
-                        <li>
-                            <a target="_blank" href="https://twitter.com/ehazon">
-                                        <span class="fa-stack fa-lg">
-                                            <i class="fa fa-circle fa-stack-2x"></i>
-                                            <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-                                        </span>
-                            </a>
-                        </li>
-                        
-                        
+        <div class="row">
+            <!-- Sidebar Container -->
 
-                        
-                        <li>
-                            <a target="_blank" href="http://weibo.com/1254617623">
-                                        <span class="fa-stack fa-lg">
-                                            <i class="fa fa-circle fa-stack-2x"></i>
-                                            <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
-                                        </span>
-                            </a>
-                        </li>
-                        
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
 
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
                         
+                        <a class="tag" href="/tags/#NLP" title="NLP">NLP</a>
+                        
+                    </div>
+                </section>
+                
 
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
                         
-                        <li>
-                            <a target="_blank" href="https://github.com/xinghanzzy">
-                                        <span class="fa-stack fa-lg">
-                                            <i class="fa fa-circle fa-stack-2x"></i>
-                                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                                        </span>
-                            </a>
-                        </li>
+                        <li><a href="https://hellozhaozheng.github.io/">ZZ</a></li>
                         
-
+                        <li><a href="http://www.jianshu.com/u/e71990ada2fd">简书·BY</a></li>
+                        
+                        <li><a href="https://apple.com">Apple</a></li>
                         
                     </ul>
                 </div>
-            </section>
-
-            <!-- Featured Tags  标签 -->
-            
-            <section>
-                <div class="tags">
-                    
-                    
-                    <a href="/tags/#终端" title="终端" rel="3">终端</a>
-                    
-                    
-                    
-                    <a href="/tags/#Git" title="Git" rel="5">Git</a>
-                    
-                    
-                    
-                    
-                    
-                    <a href="/tags/#NMT" title="NMT" rel="9">NMT</a>
-                    
-                    
-                    
-                    
-                    
-                    <a href="/tags/#NLP" title="NLP" rel="6">NLP</a>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    <a href="/tags/#TensorFlow" title="TensorFlow" rel="4">TensorFlow</a>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    <a href="/tags/#Transformer" title="Transformer" rel="2">Transformer</a>
-                    
-                    
-                    
-                    <a href="/tags/#深度学习" title="深度学习" rel="4">深度学习</a>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                </div>
-            </section>
-            
-
-            
-            <hr>
-            <h5 style="text-align: center;">Friends</h5>
-            <ul class="list-inline" style="text-align: center;">
                 
-                <li><a href="https://hellozhaozheng.github.io/" target="_blank">ZZ</a></li>
-                
-                <li><a href="http://www.jianshu.com/u/e71990ada2fd" target="_blank">简书·BY</a></li>
-                
-                <li><a href="https://apple.com" target="_blank">Apple</a></li>
-                
-            </ul>
-            
-
+            </div>
         </div>
+
     </div>
-</div>
+</article>
+
+
+
+
+
+
 
 <!-- Footer -->
 <!-- Footer -->

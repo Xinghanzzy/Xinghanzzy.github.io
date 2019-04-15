@@ -127,13 +127,13 @@
 <!--only post-->
 
 
-<img class="wechat-title-img" src="null/images/ind123123ex.jpg">
+<img class="wechat-title-img" src="null/images/post-bg-os-metro.jpg">
 
 
 <style>
     
     header.intro-header {
-        background-image: url('/images/ind123123ex.jpg?imageView2/1/w/1400/h/400/interlace/1/q/90')
+        background-image: url('/images/post-bg-os-metro.jpg?imageView2/1/w/1400/h/400/interlace/1/q/90')
     }
 
     
@@ -181,18 +181,73 @@
                 <blockquote>
 <p>前人栽树，后人乘凉</p>
 <p><a href="https://www.jianshu.com/p/14ec26a5892b" target="_blank" rel="noopener">word2vec、负采样、层序softmax</a></p>
+<p><a href="https://www.jianshu.com/p/471d9bfbd72f" target="_blank" rel="noopener">通俗理解word2vec</a></p>
+<p>动机：Word2Vec以及word Embedding概念很早就知道了，xc对此很感兴趣</p>
+<p>不过最近发现一些公司面试时候喜欢考这里的知识点，然而层次softmax的细节以及如何应用到训练中我还不是很懂，于是找了一下相关资料</p>
 </blockquote>
 <h1 id="Word2Vec"><a href="#Word2Vec" class="headerlink" title="Word2Vec"></a>Word2Vec</h1><p>word2vec也叫word embeddings,中文名“词向量”、”词嵌入”。是Google 的 Tomas Mikolov 在《Efficient Estimation of Word Representation in Vector Space》提出的。word2vec分两个模型，分别为skip-gram(Continuous Skip-gram Model 跳字模型)和CBOW(Continuous Bag-of-Words Model 连续词袋模型)。 </p>
+<h2 id="one-hot"><a href="#one-hot" class="headerlink" title="one-hot"></a>one-hot</h2><p>独热编码即 One-Hot 编码，又称一位有效编码，其方法是使用N位状态寄存器来对N个状态进行编码，每个状态都有它独立的寄存器位，并且在任意时候，其中只有一位有效。 </p>
+<p><strong>优点</strong>：</p>
+<pre><code>- 解决了分类器不好处理离散数据的问题
+</code></pre><ul>
+<li>在一定程度上也起到了扩充特征的作用。</li>
+</ul>
+<p><strong>缺点</strong>：在文本特征表示上有些缺点就非常突出</p>
+<ul>
+<li>它是一个词袋模型，不考虑词与词之间的顺序（文本中词的顺序信息也是很重要的）</li>
+<li>它假设词与词相互独立（在大多数情况下，词与词是相互影响的）</li>
+<li>它得到的特征是离散稀疏的(维度灾难)。</li>
+</ul>
+<p><strong>解决：</strong></p>
+<p>​    <strong>word embedding（词嵌入）</strong>，即将高维词向量嵌入到一个低维空间。 </p>
+<p><img src="https://ws1.sinaimg.cn/large/4ac7f217ly1g237ap3zgpj20d00awwfg.jpg" alt></p>
+<p>词向量：</p>
+<script type="math/tex; mode=display">
+\vec {King} - \vec {Man} + \vec {Woman} = \vec {Queen}</script><h2 id="word2vec"><a href="#word2vec" class="headerlink" title="word2vec"></a>word2vec</h2><p>word2vec模型其实就是简单化的神经网络。 </p>
+<p><img src="https://ws1.sinaimg.cn/large/4ac7f217ly1g237gckx5oj20im0citc7.jpg" alt></p>
+<p>输入是One-Hot Vector，Hidden Layer没有激活函数，也就是线性的单元。Output Layer维度跟Input Layer的维度一样，用的是Softmax回归。当这个模型训练好以后，我们并不会用这个训练好的模型处理新的任务，我们真正需要的是这个模型通过训练数据所学得的参数，例如隐层的权重矩阵。 </p>
+<p><strong>每个词都可有两个向量表达，既可以是背景词，也可以是中心词。</strong> </p>
+<p><strong>词袋模型训练时间更短，但是skip-gram更精准</strong> </p>
+<p><strong>CBOW对小型数据库比较合适，而Skip-Gram在大型语料中表现更好</strong> </p>
 <h2 id="skip-gram"><a href="#skip-gram" class="headerlink" title="skip-gram"></a>skip-gram</h2><p>跳字模型就是用一个词去预测它文本序列周围的词，例如：”the“，”man“，”hit“，”his“，”son“。比如时间窗口大小为2，则可以用”hit“中心词来预测”the“，”man“，”his“，”son“这些窗口小于2的背景词的最大概率。 </p>
-
+<h2 id="CBOW"><a href="#CBOW" class="headerlink" title="CBOW"></a>CBOW</h2><p>连续词袋模型就是用文本序列周围的词来预测中心词，例如，给定文本序列”the“，”man“，”hit“，”his“，”son“，连续词袋模型关心的是给定”the“，”man“，”his“，”son“一起生成中心词”hit“的概率。 </p>
+<h2 id="训练过程"><a href="#训练过程" class="headerlink" title="训练过程"></a>训练过程</h2><p>以“我爱北京天安门”这句话为例。</p>
+<ol>
+<li><p>假设我们现在关注的词是“爱”，</p>
+</li>
+<li><p>C＝2时它的上下文分别是“我”，“北京天安门”</p>
+</li>
+<li><p>CBOW模型就是把“我” “北京天安门” 的one hot表示方式作为输入，也就是C个$1*V$的向量</p>
+</li>
+<li><p>分别跟同一个$VxN$的大小的系数矩阵$W1$相乘得到C个$1xN$的隐藏层$hidden layer$，</p>
+</li>
+<li><p>C个取平均所以只算一个隐藏层。</p>
+<blockquote>
+<p> 这个过程也被称为线性激活函数(这也算激活函数？分明就是没有激活函数了)。</p>
+</blockquote>
+</li>
+<li><p>再跟另一个$NxV$大小的系数矩阵W2相乘得到$1xV$的输出层</p>
+<blockquote>
+<p>这个输出层每个元素代表的就是词库里每个词的事后概率。</p>
+</blockquote>
+</li>
+<li><p>输出层需要跟ground truth也就是“爱”的one hot形式做比较计算loss。</p>
+<p>优化：这里需要注意的就是V通常是一个很大的数比如几百万，计算起来相当费时间，除了“爱”那个位置的元素肯定要算在loss里面，word2vec就用基于huffman编码的<strong>Hierarchical softmax</strong>筛选掉了一部分不可能的词，然后又用<strong>nagetive samping</strong>再去掉了一些负样本的词所以时间复杂度就从O(V)变成了O(logV)。Skip gram训练过程类似，只不过输入输出刚好相反。 </p>
+</li>
+</ol>
+<h2 id="负采样（skip-gram举例）"><a href="#负采样（skip-gram举例）" class="headerlink" title="负采样（skip-gram举例）"></a>负采样（skip-gram举例）</h2>
                 <hr>
                 
 
                 <ul class="pager">
                     
+                    <li class="previous">
+                        <a href="/2019/04/15/FastText/" data-toggle="tooltip" data-placement="top" title="FastText">&larr; Previous Post</a>
+                    </li>
+                    
                     
                     <li class="next">
-                        <a href="/2019/04/14/your-poetry-name/" data-toggle="tooltip" data-placement="top" title="既往不恋,未来不迎,当下不杂.">Next Post &rarr;</a>
+                        <a href="/2019/04/14/your-poetry-name/" data-toggle="tooltip" data-placement="top" title="醉里论道 醒时折花">Next Post &rarr;</a>
                     </li>
                     
                 </ul>
@@ -211,7 +266,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Word2Vec"><span class="toc-text">Word2Vec</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#skip-gram"><span class="toc-text">skip-gram</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Word2Vec"><span class="toc-text">Word2Vec</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#one-hot"><span class="toc-text">one-hot</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#word2vec"><span class="toc-text">word2vec</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#skip-gram"><span class="toc-text">skip-gram</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CBOW"><span class="toc-text">CBOW</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#训练过程"><span class="toc-text">训练过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#负采样（skip-gram举例）"><span class="toc-text">负采样（skip-gram举例）</span></a></li></ol></li></ol>
                 </div>
             </div>
         </div>
