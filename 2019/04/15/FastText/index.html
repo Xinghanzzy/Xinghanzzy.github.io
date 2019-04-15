@@ -127,13 +127,13 @@
 <!--only post-->
 
 
-<img class="wechat-title-img" src="/images/post-bg-desk.jpg">
+<img class="wechat-title-img" src="null/images/14369.jpg">
 
 
 <style>
     
     header.intro-header {
-        background-image: url('/images/post-bg-desk.jpg')
+        background-image: url('/images/14369.jpg?imageView2/1/w/1400/h/400/interlace/1/q/90')
     }
 
     
@@ -195,6 +195,24 @@
 <h2 id="2-2-层次SoftMax"><a href="#2-2-层次SoftMax" class="headerlink" title="2.2 层次SoftMax"></a>2.2 层次SoftMax</h2><p>对于有大量类别的数据集，fastText使用了一个分层分类器（而非扁平式架构）。不同的类别被整合进树形结构中（想象下二叉树而非 list）。在某些文本分类任务中类别很多，计算线性分类器的复杂度高。为了改善运行时间，fastText 模型使用了层次 Softmax 技巧。层次 Softmax 技巧建立在哈弗曼编码的基础上，对标签进行编码，能够极大地缩小模型预测目标的数量。</p>
 <p>fastText 也利用了类别（class）不均衡这个事实（一些类别出现次数比其他的更多），通过使用 Huffman 算法建立用于表征类别的树形结构。因此，频繁出现类别的树形结构的深度要比不频繁出现类别的树形结构的深度要小，这也使得进一步的计算效率更高。 </p>
 <p><img src="https://ws1.sinaimg.cn/large/4ac7f217ly1g239noqvtgj20iz0c0tct.jpg" alt></p>
+<h2 id="2-3-N-gram特征"><a href="#2-3-N-gram特征" class="headerlink" title="2.3 N-gram特征"></a>2.3 N-gram特征</h2><p>FastText 可以用于文本分类和句子分类。不管是文本分类还是句子分类，我们常用的特征是词袋模型。但词袋模型不能考虑词之间的顺序，因此 fastText 还加入了 N-gram 特征。“我 爱 她” 这句话中的词袋模型特征是 “我”，“爱”, “她”。这些特征和句子 “她 爱 我” 的特征是一样的。如果加入 2-Ngram，第一句话的特征还有 “我-爱” 和 “爱-她”，这两句话 “我 爱 她” 和 “她 爱 我” 就能区别开来了。当然啦，为了提高效率，我们需要过滤掉低频的 N-gram。</p>
+<h1 id="三、总结"><a href="#三、总结" class="headerlink" title="三、总结"></a>三、总结</h1><h2 id="3-1-fastText和word2vec的区别"><a href="#3-1-fastText和word2vec的区别" class="headerlink" title="3.1 fastText和word2vec的区别"></a>3.1 fastText和word2vec的区别</h2><p>相似处：</p>
+<ol>
+<li>图模型结构很像，都是采用embedding向量的形式，得到word的隐向量表达。</li>
+<li>都采用很多相似的优化方法，比如使用Hierarchical softmax优化训练和预测中的打分速度。</li>
+</ol>
+<p>不同处：</p>
+<ol>
+<li>模型的输出层：word2vec的输出层，对应的是每一个term，计算某term的概率最大；而fasttext的输出层对应的是 分类的label。不过不管输出层对应的是什么内容，起对应的vector都不会被保留和使用；</li>
+<li>模型的输入层：word2vec的输出层，是 context window 内的term；而fasttext 对应的整个sentence的内容，包括term，也包括 n-gram的内容；</li>
+</ol>
+<p>两者本质的不同，体现在 h-softmax的使用：</p>
+<ul>
+<li>Wordvec的目的是得到词向量，该词向量 最终是在输入层得到，输出层对应的 h-softmax<br>也会生成一系列的向量，但最终都被抛弃，不会使用。</li>
+<li>Fasttext则充分利用了h-softmax的分类功能，遍历分类树的所有叶节点，找到概率最大的label（一个或者N个）</li>
+</ul>
+<h2 id="3-2-小结"><a href="#3-2-小结" class="headerlink" title="3.2 小结"></a>3.2 小结</h2><p>总的来说，fastText的学习速度比较快，效果还不错。fastText适用与分类类别非常大而且数据集足够多的情况，当分类类别比较小或者数据集比较少的话，很容易过拟合。</p>
+<p>可以完成无监督的词向量的学习，可以学习出来词向量，来保持住词和词之间，相关词之间是一个距离比较近的情况；<br>也可以用于有监督学习的文本分类任务，（新闻文本分类，垃圾邮件分类、情感分析中文本情感分析，电商中用户评论的褒贬分析）</p>
 
                 <hr>
                 
@@ -222,7 +240,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#FastText：快速的文本分类器"><span class="toc-text">FastText：快速的文本分类器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#一、简介"><span class="toc-text">一、简介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、FastText原理"><span class="toc-text">二、FastText原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-模型架构"><span class="toc-text">2.1 模型架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-层次SoftMax"><span class="toc-text">2.2 层次SoftMax</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#FastText：快速的文本分类器"><span class="toc-text">FastText：快速的文本分类器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#一、简介"><span class="toc-text">一、简介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、FastText原理"><span class="toc-text">二、FastText原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-模型架构"><span class="toc-text">2.1 模型架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-层次SoftMax"><span class="toc-text">2.2 层次SoftMax</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-N-gram特征"><span class="toc-text">2.3 N-gram特征</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#三、总结"><span class="toc-text">三、总结</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-fastText和word2vec的区别"><span class="toc-text">3.1 fastText和word2vec的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-小结"><span class="toc-text">3.2 小结</span></a></li></ol></li></ol>
                 </div>
             </div>
         </div>
