@@ -271,7 +271,7 @@
 
 
 
-<div class="post-preview " style="background-image: url('img/post-bg-2015.jpg')">
+<div class="post-preview " style="background-image: url('/images/post-bg-2015.jpg')">
     <a href="/2019/03/11/Transformer-master阅读/">
         <h2 class="post-title">
             Transformer阅读
@@ -294,6 +294,69 @@
 Transformer动机：前几天和同学讨论一下decoder对mask是否有优化，发现自己对tensor shape记得并不好，这两天再过一次 加深一下印象并记录
 代码：17年老代码，好处是写的很简单
 数据预处理 pre..
+            </p>
+        </div>
+    </a>
+
+</div>
+
+<hr>
+
+
+
+<div class="post-preview " style="background-image: url('img/post-bg-2015.jpg')">
+    <a href="/2019/03/11/TensorFlow函数/">
+        <h2 class="post-title">
+            TensorFlow函数
+        </h2>
+        <p class="post-meta">
+            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-03-11
+        </p>
+        
+        <h3 class="post-subtitle">
+            TensorFlow常用函数
+        </h3>
+        
+        <div class="post-content-preview">
+            <p>
+                
+我的的博客
+
+TensorFlow函数tf.tile# key_masks：(N, T_k) N:batch_size T:maxlentf.tile(key_masks, [num_heads, 1]) # (h*N, T_k)
+在input的每一维 复制对应的次数
+tile([x, y],..
+            </p>
+        </div>
+    </a>
+
+</div>
+
+<hr>
+
+
+
+<div class="post-preview " style="background-image: url('img/post-bg-2015.jpg')">
+    <a href="/2019/03/11/Softmax and Normalization/">
+        <h2 class="post-title">
+            Softmax and Normalization
+        </h2>
+        <p class="post-meta">
+            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-03-11
+        </p>
+        
+        <h3 class="post-subtitle">
+            Softmax and Normalization理解
+        </h3>
+        
+        <div class="post-content-preview">
+            <p>
+                
+三分钟带你对 Softmax 划重点
+深度学习中 Batch Normalization为什么效果好？-知乎
+详解深度学习中的Normalization，BN/LN/WN
+我的的博客
+
+Softmax在数学，尤其是概率论和相关领域中，Softmax函数，或称归一化 指数函数，是逻辑函数的一种推..
             </p>
         </div>
     </a>
@@ -338,26 +401,30 @@ Transformer动机：前几天和同学讨论一下decoder对mask是否有优化�
 
 
 <div class="post-preview " style="background-image: url('img/post-bg-2015.jpg')">
-    <a href="/2019/03/11/TensorFlow函数/">
+    <a href="/2019/03/08/Subword BPE 理解/">
         <h2 class="post-title">
-            TensorFlow函数
+            Subword BPE 理解
         </h2>
         <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-03-11
+            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-03-08
         </p>
         
         <h3 class="post-subtitle">
-            TensorFlow常用函数
+            Subword 学习记录
         </h3>
         
         <div class="post-content-preview">
             <p>
                 
+正所谓前人栽树，后人乘凉。
+感谢夏天的米米阳光CSDN
+感谢subword-units
 我的的博客
 
-TensorFlow函数tf.tile# key_masks：(N, T_k) N:batch_size T:maxlentf.tile(key_masks, [num_heads, 1]) # (h*N, T_k)
-在input的每一维 复制对应的次数
-tile([x, y],..
+Subwordlearn BPEBPE词表学习，首先统计词表词频，然后每个单词表示为一个字符序列，并加上一个特殊的词尾标记 
+
+ apple eat 这两个的e是不同的
+appale    e..
             </p>
         </div>
     </a>
@@ -390,41 +457,6 @@ tile([x, y],..
 
 Query Key Value概念理解单词本意query：n. 疑问，质问；疑问号 ；[计] 查询 vt. 询问；对……表示疑问
 key：vt. 键入；锁上；调节…的音调；提..
-            </p>
-        </div>
-    </a>
-
-</div>
-
-<hr>
-
-
-
-<div class="post-preview " style="background-image: url('img/post-bg-2015.jpg')">
-    <a href="/2019/03/08/Subword BPE 理解/">
-        <h2 class="post-title">
-            Subword BPE 理解
-        </h2>
-        <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-03-08
-        </p>
-        
-        <h3 class="post-subtitle">
-            Subword 学习记录
-        </h3>
-        
-        <div class="post-content-preview">
-            <p>
-                
-正所谓前人栽树，后人乘凉。
-感谢夏天的米米阳光CSDN
-感谢subword-units
-我的的博客
-
-Subwordlearn BPEBPE词表学习，首先统计词表词频，然后每个单词表示为一个字符序列，并加上一个特殊的词尾标记 
-
- apple eat 这两个的e是不同的
-appale    e..
             </p>
         </div>
     </a>
@@ -488,35 +520,6 @@ $ ssh-keygen -t rsa -C &quot;your_email@youremail.com&quot;
 123
 
 
-            </p>
-        </div>
-    </a>
-
-</div>
-
-<hr>
-
-
-
-<div class="post-preview " style="background-image: url('img/post-bg-debug.png')">
-    <a href="/2017/02/22/使用-.gitignore-忽略-git-仓库中的文件/">
-        <h2 class="post-title">
-            使用 .gitignore 忽略 Git 仓库中的文件
-        </h2>
-        <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2017-02-22
-        </p>
-        
-        <h3 class="post-subtitle">
-            .gitignore 文件在Git中的使用
-        </h3>
-        
-        <div class="post-content-preview">
-            <p>
-                
-使用 .gitignore 文件忽略指定文件
-
-.gitignore在Git中，很多时候你只想将代码提交到仓库，而不是将当前文件目录下的文件全部提交到Git仓库中，例如在MacOS系统下面的.DS_Store文件，或者是Xocde的操作记录，又或者是pod库的中一大串的源代码。这种情况下使用...
             </p>
         </div>
     </a>
@@ -616,10 +619,6 @@ $ ssh-keygen -t rsa -C &quot;your_email@youremail.com&quot;
                 <div class="tags">
                     
                     
-                    
-                    
-                    
-                    
                     <a href="/tags/#终端" title="终端" rel="3">终端</a>
                     
                     
@@ -630,9 +629,11 @@ $ ssh-keygen -t rsa -C &quot;your_email@youremail.com&quot;
                     
                     
                     
-                    <a href="/tags/#NMT" title="NMT" rel="8">NMT</a>
+                    <a href="/tags/#NMT" title="NMT" rel="9">NMT</a>
                     
                     
+                    
+                    <a href="/tags/#TensorFlow" title="TensorFlow" rel="4">TensorFlow</a>
                     
                     
                     
@@ -648,7 +649,9 @@ $ ssh-keygen -t rsa -C &quot;your_email@youremail.com&quot;
                     
                     
                     
-                    <a href="/tags/#TensorFlow" title="TensorFlow" rel="4">TensorFlow</a>
+                    
+                    
+                    <a href="/tags/#深度学习" title="深度学习" rel="4">深度学习</a>
                     
                     
                     
@@ -656,7 +659,7 @@ $ ssh-keygen -t rsa -C &quot;your_email@youremail.com&quot;
                     
                     
                     
-                    <a href="/tags/#深度学习" title="深度学习" rel="3">深度学习</a>
+                    
                     
                     
                     
