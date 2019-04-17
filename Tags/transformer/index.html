@@ -22,7 +22,7 @@
         
     </title>
 
-    <link rel="canonical" href="http://xinghanzzy.github.io/tags/Transformer/">
+    <link rel="canonical" href="http://xinghanzzy.github.io/tags/transformer/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -151,63 +151,28 @@
 
 
 
-<div class="post-preview " style="background-image: url('img/home-bg-o.jpg')">
-    <a href="/2019/04/08/相对位置 relative position/">
+<div class="post-preview " style="background-image: url('img/post-bg-2015.jpg')">
+    <a href="/2019/03/08/Q K V理解/">
         <h2 class="post-title">
-            self-attention 相对位置 relative position.
+            Q K V 理解
         </h2>
         <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-04-08
+            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-03-08
         </p>
         
         <h3 class="post-subtitle">
-            Self-Attention with Relative Position Representations
+            Query Key Value的理解
         </h3>
         
         <div class="post-content-preview">
             <p>
                 
-自己看的记录笔记
-写的很差 勿看
-参考文献
-https://blog.csdn.net/luoxiaolin_love/article/details/82258069 
+正所谓前人栽树，后人乘凉。
+感谢 seeInfinite：关于attention机制在nlp中的应用总结
+我的的博客
 
-相对位置NAACL 2018的论文 
-读论文读的太少了
-
-作者认为正弦余弦位置向量效果是比可学习的更好的，因为他可以看到..
-            </p>
-        </div>
-    </a>
-
-</div>
-
-<hr>
-
-
-
-<div class="post-preview " style="background-image: url('img/post-bg-debug.png')">
-    <a href="/2019/03/14/Transformer norm 先做后做/">
-        <h2 class="post-title">
-            Transformer norm 先做后做
-        </h2>
-        <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-03-14
-        </p>
-        
-        <h3 class="post-subtitle">
-            Transformer layer normalization 先做后做
-        </h3>
-        
-        <div class="post-content-preview">
-            <p>
-                
-并不适合阅读的个人文档。
-
-Normalization  先做 和 后做
-
-后做是传统做法
-后做是 input x ,  x residual 到后面, x 进行function(multi-head attention),  f(x) 进行dropout，df(x) + x  （residu..
+Query Key Value概念理解单词本意query：n. 疑问，质问；疑问号 ；[计] 查询 vt. 询问；对……表示疑问
+key：vt. 键入；锁上；调节…的音调；提..
             </p>
         </div>
     </a>
@@ -309,11 +274,9 @@ Normalization  先做 和 后做
                     
                     
                     
-                    <a href="/tags/#NMT" title="NMT" rel="9">NMT</a>
+                    <a href="/tags/#NMT" title="NMT" rel="10">NMT</a>
                     
                     
-                    
-                    <a href="/tags/#TensorFlow" title="TensorFlow" rel="4">TensorFlow</a>
                     
                     
                     
@@ -329,15 +292,15 @@ Normalization  先做 和 后做
                     
                     
                     
+                    <a href="/tags/#TensorFlow" title="TensorFlow" rel="4">TensorFlow</a>
+                    
                     
                     
                     <a href="/tags/#Transformer" title="Transformer" rel="2">Transformer</a>
                     
                     
                     
-                    <a href="/tags/#深度学习" title="深度学习" rel="4">深度学习</a>
-                    
-                    
+                    <a href="/tags/#深度学习" title="深度学习" rel="5">深度学习</a>
                     
                     
                     
@@ -485,6 +448,33 @@ Normalization  先做 和 后做
   (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
   e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
   })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="/images/wangye.jpg">
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+
+</html>
+ocument,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
 
   _st('install','','2.0.0');
 </script>

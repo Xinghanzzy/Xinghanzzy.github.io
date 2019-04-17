@@ -151,28 +151,29 @@
 
 
 
-<div class="post-preview " style="background-image: url('img/post-bg-debug.png')">
-    <a href="/2019/03/14/Transformer norm 先做后做/">
+<div class="post-preview " style="background-image: url('img/post-bg-2015.jpg')">
+    <a href="/2019/03/11/FFN MLP dense 权重矩阵 全连接/">
         <h2 class="post-title">
-            Transformer norm 先做后做
+            FFN MLP dense 权重矩阵 全连接
         </h2>
         <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-03-14
+            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-03-11
         </p>
         
         <h3 class="post-subtitle">
-            Transformer layer normalization 先做后做
+            FFN MLP dense 权重矩阵 全连接 区别理解
         </h3>
         
         <div class="post-content-preview">
             <p>
                 
-并不适合阅读的个人文档。
-
-Normalization  先做 和 后做
-
-后做是传统做法
-后做是 input x ,  x residual 到后面, x 进行function(multi-head attention),  f(x) 进行dropout，df(x) + x  （residu..
+参考文章，感谢作者付出。
+直观理解神经网络最后一层全连接+Softmax
+花书+吴恩达深度学习（一）前馈神经网络（多层感知机 MLP）
+如何理解softmax 
+【AI数学】Batch-Normalization详细解析
+我的的博客
+一句话：FNN=MLP=ndense=nrelu(Wx+b)..
             </p>
         </div>
     </a>
@@ -280,28 +281,30 @@ tile([x, y],..
 
 
 <div class="post-preview " style="background-image: url('img/post-bg-2015.jpg')">
-    <a href="/2019/03/11/FFN MLP dense 权重矩阵 全连接/">
+    <a href="/2019/03/08/Subword BPE 理解/">
         <h2 class="post-title">
-            FFN MLP dense 权重矩阵 全连接
+            Subword BPE 理解
         </h2>
         <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-03-11
+            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-03-08
         </p>
         
         <h3 class="post-subtitle">
-            FFN MLP dense 权重矩阵 全连接 区别理解
+            Subword 学习记录
         </h3>
         
         <div class="post-content-preview">
             <p>
                 
-参考文章，感谢作者付出。
-直观理解神经网络最后一层全连接+Softmax
-花书+吴恩达深度学习（一）前馈神经网络（多层感知机 MLP）
-如何理解softmax 
-【AI数学】Batch-Normalization详细解析
+正所谓前人栽树，后人乘凉。
+感谢夏天的米米阳光CSDN
+感谢subword-units
 我的的博客
-一句话：FNN=MLP=ndense=nrelu(Wx+b)..
+
+Subwordlearn BPEBPE词表学习，首先统计词表词频，然后每个单词表示为一个字符序列，并加上一个特殊的词尾标记 
+
+ apple eat 这两个的e是不同的
+appale    e..
             </p>
         </div>
     </a>
@@ -345,41 +348,6 @@ key：vt. 键入；锁上；调节…的音调；提..
 
 
 <div class="post-preview " style="background-image: url('img/post-bg-2015.jpg')">
-    <a href="/2019/03/08/Subword BPE 理解/">
-        <h2 class="post-title">
-            Subword BPE 理解
-        </h2>
-        <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-03-08
-        </p>
-        
-        <h3 class="post-subtitle">
-            Subword 学习记录
-        </h3>
-        
-        <div class="post-content-preview">
-            <p>
-                
-正所谓前人栽树，后人乘凉。
-感谢夏天的米米阳光CSDN
-感谢subword-units
-我的的博客
-
-Subwordlearn BPEBPE词表学习，首先统计词表词频，然后每个单词表示为一个字符序列，并加上一个特殊的词尾标记 
-
- apple eat 这两个的e是不同的
-appale    e..
-            </p>
-        </div>
-    </a>
-
-</div>
-
-<hr>
-
-
-
-<div class="post-preview " style="background-image: url('img/post-bg-2015.jpg')">
     <a href="/2019/02/13/Github 简明教程/">
         <h2 class="post-title">
             Github 简明教程
@@ -412,6 +380,36 @@ $ ssh-keygen -t rsa -C &quot;your_email@youremail.com&quot;
 
 
 
+<div class="post-preview " style="background-image: url('img/post-bg-2015.jpg')">
+    <a href="/2019/02/07/快速搭建个人博客2/">
+        <h2 class="post-title">
+            测试
+        </h2>
+        <p class="post-meta">
+            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-02-07
+        </p>
+        
+        <h3 class="post-subtitle">
+            Hello World, Hello Blog
+        </h3>
+        
+        <div class="post-content-preview">
+            <p>
+                测试第一行
+
+123
+
+
+            </p>
+        </div>
+    </a>
+
+</div>
+
+<hr>
+
+
+
 
 <!-- 翻页 pager -->
 
@@ -421,10 +419,6 @@ $ ssh-keygen -t rsa -C &quot;your_email@youremail.com&quot;
         <a href="/archives/2019/">&larr; Newer Posts</a>
     </li>
     
-    
-    <li class="next">
-        <a href="/archives/2019/page/3/">Older Posts &rarr;</a>
-    </li>
     
 </ul>
 
@@ -511,11 +505,9 @@ $ ssh-keygen -t rsa -C &quot;your_email@youremail.com&quot;
                     
                     
                     
-                    <a href="/tags/#NMT" title="NMT" rel="9">NMT</a>
+                    <a href="/tags/#NMT" title="NMT" rel="10">NMT</a>
                     
                     
-                    
-                    <a href="/tags/#TensorFlow" title="TensorFlow" rel="4">TensorFlow</a>
                     
                     
                     
@@ -531,15 +523,15 @@ $ ssh-keygen -t rsa -C &quot;your_email@youremail.com&quot;
                     
                     
                     
+                    <a href="/tags/#TensorFlow" title="TensorFlow" rel="4">TensorFlow</a>
+                    
                     
                     
                     <a href="/tags/#Transformer" title="Transformer" rel="2">Transformer</a>
                     
                     
                     
-                    <a href="/tags/#深度学习" title="深度学习" rel="4">深度学习</a>
-                    
-                    
+                    <a href="/tags/#深度学习" title="深度学习" rel="5">深度学习</a>
                     
                     
                     
