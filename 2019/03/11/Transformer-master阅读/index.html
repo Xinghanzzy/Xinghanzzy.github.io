@@ -206,10 +206,11 @@
 </blockquote>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># N：batch_size  T:maxlen 最大句长</span></span><br><span class="line">self.x, self.y, self.num_batch = get_batch_data() <span class="comment"># (N, T) 		</span></span><br><span class="line">	lang2idx，idx2lang</span><br><span class="line">	word2idx: OOV-&gt;"&lt;UNK&gt;"(1) 句尾+&lt;/S&gt;</span><br><span class="line">    <span class="comment"># x和y后面pad上x和y初始元素个数和句子最大长度差的那么多数值 0</span></span><br><span class="line">    <span class="comment"># pad 垫，填补</span></span><br><span class="line">	PAD:补全<span class="number">0</span>，maxlen</span><br><span class="line">    num_batch = len(X) // hp.batch_size <span class="comment"># 整除</span></span><br><span class="line">    <span class="comment"># Create Queues</span></span><br><span class="line">    input_queues = tf.train.slice_input_producer([X, Y])</span><br><span class="line">    x, y = tf.train.shuffle_batch</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>decoder input : 句尾去掉&lt;\S&gt;句首+ <s> (2)</s></p>
+<li><p>decoder input : 句尾去掉\S句首+ S (2)</p>
 <blockquote>
 <p>input :  (N, T) </p>
 <p>output : (N, T) </p>
+<p>用self.y来初始化解码器的输入。decoder_inputs和self.y相比，去掉了最后一个句子结束符，而在每句话最前面加了一个初始化为2的id，即S</p>
 </blockquote>
 </li>
 <li><p>$2*2$个list，$lang2idx，idx2lang$</p>
@@ -286,7 +287,7 @@
                     
                     
                     <li class="next">
-                        <a href="/2019/03/11/TensorFlow函数/" data-toggle="tooltip" data-placement="top" title="TensorFlow函数">Next Post &rarr;</a>
+                        <a href="/2019/03/11/FFN MLP dense 权重矩阵 全连接/" data-toggle="tooltip" data-placement="top" title="FFN MLP dense 权重矩阵 全连接">Next Post &rarr;</a>
                     </li>
                     
                 </ul>
@@ -491,21 +492,6 @@
 
 <!--wechat title img-->
 <img class="wechat-title-img" src="/images/wangye.jpg">
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 
 </html>

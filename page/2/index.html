@@ -272,28 +272,26 @@
 
 
 <div class="post-preview " style="background-image: url('img/post-bg-2015.jpg')">
-    <a href="/2019/03/11/FFN MLP dense 权重矩阵 全连接/">
+    <a href="/2019/03/11/TensorFlow函数/">
         <h2 class="post-title">
-            FFN MLP dense 权重矩阵 全连接
+            TensorFlow函数
         </h2>
         <p class="post-meta">
             <i class="fa fa-calendar" aria-hidden="true"></i> 2019-03-11
         </p>
         
         <h3 class="post-subtitle">
-            FFN MLP dense 权重矩阵 全连接 区别理解
+            TensorFlow常用函数
         </h3>
         
         <div class="post-content-preview">
             <p>
                 
-参考文章，感谢作者付出。
-直观理解神经网络最后一层全连接+Softmax
-花书+吴恩达深度学习（一）前馈神经网络（多层感知机 MLP）
-如何理解softmax 
-【AI数学】Batch-Normalization详细解析
 我的的博客
-一句话：FNN=MLP=ndense=nrelu(Wx+b)..
+
+TensorFlow函数tf.tile# key_masks：(N, T_k) N:batch_size T:maxlentf.tile(key_masks, [num_heads, 1]) # (h*N, T_k)
+在input的每一维 复制对应的次数
+tile([x, y],..
             </p>
         </div>
     </a>
@@ -370,26 +368,60 @@ Transformer动机：前几天和同学讨论一下decoder对mask是否有优化�
 
 
 <div class="post-preview " style="background-image: url('img/post-bg-2015.jpg')">
-    <a href="/2019/03/11/TensorFlow函数/">
+    <a href="/2019/03/11/FFN MLP dense 权重矩阵 全连接/">
         <h2 class="post-title">
-            TensorFlow函数
+            FFN MLP dense 权重矩阵 全连接
         </h2>
         <p class="post-meta">
             <i class="fa fa-calendar" aria-hidden="true"></i> 2019-03-11
         </p>
         
         <h3 class="post-subtitle">
-            TensorFlow常用函数
+            FFN MLP dense 权重矩阵 全连接 区别理解
         </h3>
         
         <div class="post-content-preview">
             <p>
                 
+参考文章，感谢作者付出。
+直观理解神经网络最后一层全连接+Softmax
+花书+吴恩达深度学习（一）前馈神经网络（多层感知机 MLP）
+如何理解softmax 
+【AI数学】Batch-Normalization详细解析
+我的的博客
+一句话：FNN=MLP=ndense=nrelu(Wx+b)..
+            </p>
+        </div>
+    </a>
+
+</div>
+
+<hr>
+
+
+
+<div class="post-preview " style="background-image: url('img/post-bg-2015.jpg')">
+    <a href="/2019/03/08/Q K V理解/">
+        <h2 class="post-title">
+            Q K V 理解
+        </h2>
+        <p class="post-meta">
+            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-03-08
+        </p>
+        
+        <h3 class="post-subtitle">
+            Query Key Value的理解
+        </h3>
+        
+        <div class="post-content-preview">
+            <p>
+                
+正所谓前人栽树，后人乘凉。
+感谢 seeInfinite：关于attention机制在nlp中的应用总结
 我的的博客
 
-TensorFlow函数tf.tile# key_masks：(N, T_k) N:batch_size T:maxlentf.tile(key_masks, [num_heads, 1]) # (h*N, T_k)
-在input的每一维 复制对应的次数
-tile([x, y],..
+Query Key Value概念理解单词本意query：n. 疑问，质问；疑问号 ；[计] 查询 vt. 询问；对……表示疑问
+key：vt. 键入；锁上；调节…的音调；提..
             </p>
         </div>
     </a>
@@ -425,38 +457,6 @@ Subwordlearn BPEBPE词表学习，首先统计词表词频，然后每个单词�
 
  apple eat 这两个的e是不同的
 appale    e..
-            </p>
-        </div>
-    </a>
-
-</div>
-
-<hr>
-
-
-
-<div class="post-preview " style="background-image: url('img/post-bg-2015.jpg')">
-    <a href="/2019/03/08/Q K V理解/">
-        <h2 class="post-title">
-            Q K V 理解
-        </h2>
-        <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-03-08
-        </p>
-        
-        <h3 class="post-subtitle">
-            Query Key Value的理解
-        </h3>
-        
-        <div class="post-content-preview">
-            <p>
-                
-正所谓前人栽树，后人乘凉。
-感谢 seeInfinite：关于attention机制在nlp中的应用总结
-我的的博客
-
-Query Key Value概念理解单词本意query：n. 疑问，质问；疑问号 ；[计] 查询 vt. 询问；对……表示疑问
-key：vt. 键入；锁上；调节…的音调；提..
             </p>
         </div>
     </a>
@@ -627,8 +627,6 @@ $ ssh-keygen -t rsa -C &quot;your_email@youremail.com&quot;
                     
                     
                     
-                    
-                    
                     <a href="/tags/#NMT" title="NMT" rel="10">NMT</a>
                     
                     
@@ -636,6 +634,8 @@ $ ssh-keygen -t rsa -C &quot;your_email@youremail.com&quot;
                     
                     
                     <a href="/tags/#NLP" title="NLP" rel="6">NLP</a>
+                    
+                    
                     
                     
                     
@@ -811,21 +811,6 @@ $ ssh-keygen -t rsa -C &quot;your_email@youremail.com&quot;
 
 <!--wechat title img-->
 <img class="wechat-title-img" src="/images/wangye.jpg">
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 
 </html>
