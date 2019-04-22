@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        Boxiao&#39;s blog
+        Back-Translation和源语端数据增强｜Boxiao&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="http://xinghanzzy.github.io/tags/attention/">
+    <link rel="canonical" href="http://xinghanzzy.github.io/2019/04/22/Backtranslation-and-source/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -43,7 +43,7 @@
 <!-- hack iOS CSS :active style -->
 <body ontouchstart="" class="animated fadeIn">
 <!-- Navigation -->
-<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost="false" data-istags="true
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost="true" data-istags="false
 " data-ishome="false">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -124,210 +124,183 @@
 
 <!-- Main Content -->
 
+<!--only post-->
 
-<!-- Page Header -->
-<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 visible-xs-block visible-sm-block">
-    <div class="row">
-        <header class="intro-header">
-            <div class="container">
-                <div class="site-heading text-center">
-                    <div class="about-me">
-                        <!--移动端头部显示-->
-                        <img src="/images/wangye.jpg">
-                        <h5><a href="/about/">Boxiao Zhang</a></h5>
-                        <p>Thinking will not overcome fear but action will.</p>
+
+<img class="wechat-title-img" src="/images/post-bg-desk.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/images/post-bg-desk.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>Back-Translation和源语端数据增强</h1>
+                    
+                    <span class="meta">
+                         作者 Boxiao Zhang
+                        <span>
+                          日期 2019-04-22
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#NMT" title="NMT">NMT</a>
+                        
+                        <a class="tag" href="/tags/#NLP" title="NLP">NLP</a>
+                        
                     </div>
                 </div>
             </div>
-        </header>
+        </div>
     </div>
-</div>
-<!-- Main Content -->
-<div class="container custom-haojen-container">
-    <!-- Post Container -->
-    <div class="row">
-        <div class="col-lg-8 col-lg-offset-1 col-md-8 col-md-offset-1 col-sm-12 col-xs-12 post-container">
-            <!-- Main Content -->
+    <div class="post-title-haojen">
+        <span>
+            Back-Translation和源语端数据增强
+        </span>
+    </div>
+</header>
 
-
-
-<div class="post-preview " style="background-image: url('img/post-bg-2015.jpg')">
-    <a href="/2019/03/08/Q K V理解/">
-        <h2 class="post-title">
-            Q K V 理解
-        </h2>
-        <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-03-08
-        </p>
-        
-        <h3 class="post-subtitle">
-            Query Key Value的理解
-        </h3>
-        
-        <div class="post-content-preview">
-            <p>
-                
-正所谓前人栽树，后人乘凉。
-感谢 seeInfinite：关于attention机制在nlp中的应用总结
-我的的博客
-
-Query Key Value概念理解单词本意query：n. 疑问，质问；疑问号 ；[计] 查询 vt. 询问；对……表示疑问
-key：vt. 键入；锁上；调节…的音调；提..
-            </p>
-        </div>
-    </a>
-
-</div>
-
-<hr>
-
-
-
-
-<!-- 翻页 pager -->
-
-<ul class="pager">
-    
-    
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h1 id="Back-Translation"><a href="#Back-Translation" class="headerlink" title="Back-Translation"></a>Back-Translation</h1><h1 id="源语端数据增强"><a href="#源语端数据增强" class="headerlink" title="源语端数据增强"></a>源语端数据增强</h1><p>这是自动化所张家俊老师2016年的ACL文章《Exploiting Source-side Monolingual Data in Neural Machine Translation》</p>
+<h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>我们两种方法来充分利用NMT中的源边单语数据。 </p>
+<ol>
+<li>第一种方法采用自学习算法生成用于NMT训练的合成大规模并行数据。 </li>
+<li>第二种方法应用多任务学习框架，使用两个NMT同时预测翻译和重新排序的源侧单语句。</li>
+</ol>
+<p>都是利用单语数据<strong>提高Encoder</strong>性能的方法</p>
+<p>选用<strong>50%</strong>的单词在词表中的源语单语数据比较好（论文中未指出数据量的影响）</p>
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><h3 id="自学习算法"><a href="#自学习算法" class="headerlink" title="自学习算法"></a>自学习算法</h3><p>使用可用的对齐句子对构建基线机器翻译系统，然后通过将源侧单语句与基线系统进行翻译来获得更多的合成并行数据。</p>
+<p>合成目标部分可能对NMT的解码器模型产生负面影响。为了解决这个问题，我们可以通过<strong>冻结</strong>合成数据的<strong>解码器网络参数</strong>来区分NMT训练期间合成双语句子的原始双字。</p>
+<p>自学习算法可以改进NMT的Encoder。</p>
+<p><strong>有效性推测：</strong></p>
+<p>​    Encoder见到更多的情况，提取信息能力变强</p>
+<blockquote>
+<p>源侧单语数据在词汇表中提供了更多的单词排列。 我们的RNN编码器网络模型将进行优化，以便很好地解释所有单词排列。 </p>
+<p>the source-side monolingual data provides much more permutations of words in the vocabulary. Our RNN encoder network model will be optimized to well explain all of the word permutations. </p>
+</blockquote>
+<h3 id="多任务学习"><a href="#多任务学习" class="headerlink" title="多任务学习"></a>多任务学习</h3><p>应用多任务学习框架来同时预测目标翻译和重新排序的源侧句子。背后的主要思想是我们构建了两个NMT：一个是在对齐的句子对上训练来预测来自源句子的目标句子，而另一个是在源侧单语语料库上训练来预测来自原始来源的重新排序的源句子sentences1。应当注意，两个NMT共享相同的编码器网络，以便它们可以相互帮助以加强编码器模型。</p>
+<p><img src="https://ws1.sinaimg.cn/large/4ac7f217ly1g2bb0yhdavj20fi0eh0tk.jpg" alt></p>
+<ul>
+<li><p>machine translation task</p>
+<p>input：src</p>
+<p>lable：tgt</p>
+</li>
+<li><p>sentence reordering task</p>
+<p>input：src</p>
+<p>lable：src_reorder</p>
+<p>pre-ordering rules proposed by (Wang et al., 2007),</p>
+<p>一个将src按照tgt语言语序排列的工具(很慢)</p>
+<blockquote>
+<p>which can permutate the words of the source sentence so as to approximate the target language word order.</p>
+<p>它可以排列源句的单词，以便近似目标语言单词顺序。</p>
+</blockquote>
+</li>
 </ul>
+<p><img src="https://ws1.sinaimg.cn/large/4ac7f217ly1g2bby7r8bbj20fg05h0t2.jpg" alt></p>
+<ul>
+<li><p>训练</p>
+<p><strong>1</strong>epoch sentence reordering task + <strong>4</strong> epoch machine translation task</p>
+</li>
+</ul>
+<h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p><img src="https://ws1.sinaimg.cn/large/4ac7f217ly1g2bc288yyaj20wu0gbdk5.jpg" alt></p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2019/04/18/Train-DeepLearning/" data-toggle="tooltip" data-placement="top" title="Train in DeepLearn">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
 
 
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Back-Translation"><span class="toc-text">Back-Translation</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#源语端数据增强"><span class="toc-text">源语端数据增强</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#摘要"><span class="toc-text">摘要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方法"><span class="toc-text">方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#自学习算法"><span class="toc-text">自学习算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#多任务学习"><span class="toc-text">多任务学习</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结果"><span class="toc-text">结果</span></a></li></ol></li></ol>
+                </div>
+            </div>
         </div>
-        <!-- Sidebar Container -->
-        <div class="
-                col-lg-3 col-lg-offset-0
-                col-md-3 col-md-offset-0
-                col-sm-12
-                col-xs-12
-                sidebar-container
-            ">
 
-            <!-- About Me -->
-            <section class="visible-md visible-lg" style="padding: 0 18px">
-                <div class="short-about">
-                    <!--侧边栏头像-->
-                    
-                    <img src="/images/wangye.jpg">
-                    
-                    <h5><a href="/about/">Boxiao Zhang</a></h5>
-                    
-                    <p>Thinking will not overcome fear but action will.</p>
-                    
-                    <hr>
-                    <!-- SNS Link 社交 -->
-                    <ul class="list-inline">
-                        
-                        
-                        <li>
-                            <a target="_blank" href="https://twitter.com/ehazon">
-                                        <span class="fa-stack fa-lg">
-                                            <i class="fa fa-circle fa-stack-2x"></i>
-                                            <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-                                        </span>
-                            </a>
-                        </li>
-                        
-                        
+        <div class="row">
+            <!-- Sidebar Container -->
 
-                        
-                        <li>
-                            <a target="_blank" href="http://weibo.com/1254617623">
-                                        <span class="fa-stack fa-lg">
-                                            <i class="fa fa-circle fa-stack-2x"></i>
-                                            <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
-                                        </span>
-                            </a>
-                        </li>
-                        
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
 
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
                         
+                        <a class="tag" href="/tags/#NMT" title="NMT">NMT</a>
+                        
+                        <a class="tag" href="/tags/#NLP" title="NLP">NLP</a>
+                        
+                    </div>
+                </section>
+                
 
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
                         
-                        <li>
-                            <a target="_blank" href="https://github.com/xinghanzzy">
-                                        <span class="fa-stack fa-lg">
-                                            <i class="fa fa-circle fa-stack-2x"></i>
-                                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                                        </span>
-                            </a>
-                        </li>
+                        <li><a href="https://hellozhaozheng.github.io/">ZZ</a></li>
                         
-
+                        <li><a href="http://www.jianshu.com/u/e71990ada2fd">简书·BY</a></li>
+                        
+                        <li><a href="https://apple.com">Apple</a></li>
                         
                     </ul>
                 </div>
-            </section>
-
-            <!-- Featured Tags  标签 -->
-            
-            <section>
-                <div class="tags">
-                    
-                    
-                    <a href="/tags/#终端" title="终端" rel="3">终端</a>
-                    
-                    
-                    
-                    <a href="/tags/#Git" title="Git" rel="5">Git</a>
-                    
-                    
-                    
-                    <a href="/tags/#NMT" title="NMT" rel="11">NMT</a>
-                    
-                    
-                    
-                    
-                    
-                    <a href="/tags/#NLP" title="NLP" rel="7">NLP</a>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    <a href="/tags/#TensorFlow" title="TensorFlow" rel="4">TensorFlow</a>
-                    
-                    
-                    
-                    <a href="/tags/#深度学习" title="深度学习" rel="6">深度学习</a>
-                    
-                    
-                    
-                    <a href="/tags/#Transformer" title="Transformer" rel="3">Transformer</a>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                </div>
-            </section>
-            
-
-            
-            <hr>
-            <h5 style="text-align: center;">Friends</h5>
-            <ul class="list-inline" style="text-align: center;">
                 
-                <li><a href="https://hellozhaozheng.github.io/" target="_blank">ZZ</a></li>
-                
-                <li><a href="http://www.jianshu.com/u/e71990ada2fd" target="_blank">简书·BY</a></li>
-                
-                <li><a href="https://apple.com" target="_blank">Apple</a></li>
-                
-            </ul>
-            
-
+            </div>
         </div>
+
     </div>
-</div>
+</article>
+
+
+
+
+
+
 
 <!-- Footer -->
 <!-- Footer -->

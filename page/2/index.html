@@ -80,7 +80,7 @@
                         
 							
                         <li>
-                            <a href="/Tags/">Tags</a>
+                            <a href="/tags/">tags</a>
                         </li>
 							
 						
@@ -271,27 +271,30 @@
 
 
 
-<div class="post-preview " style="background-image: url('img/post-bg-2015.jpg')">
-    <a href="/2019/03/11/TensorFlow函数/">
+<div class="post-preview " style="background-image: url('/images/post-bg-kuaidi.jpg')">
+    <a href="/2019/03/18/梯度弥散 梯度爆炸 过拟合/">
         <h2 class="post-title">
-            TensorFlow函数
+            深度学习概念：梯度弥散 梯度爆炸 过拟合 batchsize
         </h2>
         <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-03-11
+            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-03-18
         </p>
         
         <h3 class="post-subtitle">
-            TensorFlow常用函数
+            梯度弥散 梯度爆炸 过拟合 batchsize Adam Attention
         </h3>
         
         <div class="post-content-preview">
             <p>
                 
-我的的博客
-
-TensorFlow函数tf.tile# key_masks：(N, T_k) N:batch_size T:maxlentf.tile(key_masks, [num_heads, 1]) # (h*N, T_k)
-在input的每一维 复制对应的次数
-tile([x, y],..
+自己看的记录笔记
+参考文献
+解决梯度消失和梯度弥散的方法 
+注意力机制（Attention Mechanism）在自然语言处理中的应用
+真正的完全图解Seq2Seq Attention模型
+优化方法总结：SGD，Momentum，AdaGrad，RMSProp，Adam
+梯度下降优化算法总结
+..
             </p>
         </div>
     </a>
@@ -302,61 +305,28 @@ tile([x, y],..
 
 
 
-<div class="post-preview " style="background-image: url('img/post-bg-2015.jpg')">
-    <a href="/2019/03/11/Softmax and Normalization/">
+<div class="post-preview " style="background-image: url('img/post-bg-debug.png')">
+    <a href="/2019/03/14/Transformer norm 先做后做/">
         <h2 class="post-title">
-            Softmax and Normalization
+            Transformer norm 先做后做
         </h2>
         <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-03-11
+            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-03-14
         </p>
         
         <h3 class="post-subtitle">
-            Softmax and Normalization理解
+            Transformer layer normalization 先做后做
         </h3>
         
         <div class="post-content-preview">
             <p>
                 
-三分钟带你对 Softmax 划重点
-深度学习中 Batch Normalization为什么效果好？-知乎
-详解深度学习中的Normalization，BN/LN/WN
-我的的博客
+并不适合阅读的个人文档。
 
-Softmax在数学，尤其是概率论和相关领域中，Softmax函数，或称归一化 指数函数，是逻辑函数的一种推..
-            </p>
-        </div>
-    </a>
+Normalization  先做 和 后做
 
-</div>
-
-<hr>
-
-
-
-<div class="post-preview " style="background-image: url('/images/post-bg-2015.jpg')">
-    <a href="/2019/03/11/Transformer-master阅读/">
-        <h2 class="post-title">
-            Transformer阅读
-        </h2>
-        <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-03-11
-        </p>
-        
-        <h3 class="post-subtitle">
-            Transformer-master代码阅读
-        </h3>
-        
-        <div class="post-content-preview">
-            <p>
-                
-我的的博客
-机器翻译模型Transformer代码详细解析
-代码地址
-
-Transformer动机：前几天和同学讨论一下decoder对mask是否有优化，发现自己对tensor shape记得并不好，这两天再过一次 加深一下印象并记录
-代码：17年老代码，好处是写的很简单
-数据预处理 pre..
+后做是传统做法
+后做是 input x ,  x residual 到后面, x 进行function(multi-head attention),  f(x) 进行dropout，df(x) + x  （residu..
             </p>
         </div>
     </a>
@@ -401,27 +371,91 @@ Transformer动机：前几天和同学讨论一下decoder对mask是否有优化�
 
 
 <div class="post-preview " style="background-image: url('img/post-bg-2015.jpg')">
-    <a href="/2019/03/08/Q K V理解/">
+    <a href="/2019/03/11/TensorFlow函数/">
         <h2 class="post-title">
-            Q K V 理解
+            TensorFlow函数
         </h2>
         <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-03-08
+            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-03-11
         </p>
         
         <h3 class="post-subtitle">
-            Query Key Value的理解
+            TensorFlow常用函数
         </h3>
         
         <div class="post-content-preview">
             <p>
                 
-正所谓前人栽树，后人乘凉。
-感谢 seeInfinite：关于attention机制在nlp中的应用总结
 我的的博客
 
-Query Key Value概念理解单词本意query：n. 疑问，质问；疑问号 ；[计] 查询 vt. 询问；对……表示疑问
-key：vt. 键入；锁上；调节…的音调；提..
+TensorFlow函数tf.tile# key_masks：(N, T_k) N:batch_size T:maxlentf.tile(key_masks, [num_heads, 1]) # (h*N, T_k)
+在input的每一维 复制对应的次数
+tile([x, y],..
+            </p>
+        </div>
+    </a>
+
+</div>
+
+<hr>
+
+
+
+<div class="post-preview " style="background-image: url('/images/post-bg-2015.jpg')">
+    <a href="/2019/03/11/Transformer-master阅读/">
+        <h2 class="post-title">
+            Transformer阅读
+        </h2>
+        <p class="post-meta">
+            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-03-11
+        </p>
+        
+        <h3 class="post-subtitle">
+            Transformer-master代码阅读
+        </h3>
+        
+        <div class="post-content-preview">
+            <p>
+                
+我的的博客
+机器翻译模型Transformer代码详细解析
+代码地址
+
+Transformer动机：前几天和同学讨论一下decoder对mask是否有优化，发现自己对tensor shape记得并不好，这两天再过一次 加深一下印象并记录
+代码：17年老代码，好处是写的很简单
+数据预处理 pre..
+            </p>
+        </div>
+    </a>
+
+</div>
+
+<hr>
+
+
+
+<div class="post-preview " style="background-image: url('img/post-bg-2015.jpg')">
+    <a href="/2019/03/11/Softmax and Normalization/">
+        <h2 class="post-title">
+            Softmax and Normalization
+        </h2>
+        <p class="post-meta">
+            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-03-11
+        </p>
+        
+        <h3 class="post-subtitle">
+            Softmax and Normalization理解
+        </h3>
+        
+        <div class="post-content-preview">
+            <p>
+                
+三分钟带你对 Softmax 划重点
+深度学习中 Batch Normalization为什么效果好？-知乎
+详解深度学习中的Normalization，BN/LN/WN
+我的的博客
+
+Softmax在数学，尤其是概率论和相关领域中，Softmax函数，或称归一化 指数函数，是逻辑函数的一种推..
             </p>
         </div>
     </a>
@@ -468,58 +502,27 @@ appale    e..
 
 
 <div class="post-preview " style="background-image: url('img/post-bg-2015.jpg')">
-    <a href="/2019/02/13/Github 简明教程/">
+    <a href="/2019/03/08/Q K V理解/">
         <h2 class="post-title">
-            Github 简明教程
+            Q K V 理解
         </h2>
         <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-02-13
+            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-03-08
         </p>
         
         <h3 class="post-subtitle">
-            Github 简明教程 转载自菜鸟教程
+            Query Key Value的理解
         </h3>
         
         <div class="post-content-preview">
             <p>
                 
 正所谓前人栽树，后人乘凉。
-感谢菜鸟教程
+感谢 seeInfinite：关于attention机制在nlp中的应用总结
 我的的博客
 
-配置Git首先在本地创建ssh key；
-$ ssh-keygen -t rsa -C &quot;your_email@youremail.com&quot;
-后面的your_email@youremail.com改为你在github上..
-            </p>
-        </div>
-    </a>
-
-</div>
-
-<hr>
-
-
-
-<div class="post-preview " style="background-image: url('img/post-bg-2015.jpg')">
-    <a href="/2019/02/07/快速搭建个人博客2/">
-        <h2 class="post-title">
-            测试
-        </h2>
-        <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-02-07
-        </p>
-        
-        <h3 class="post-subtitle">
-            Hello World, Hello Blog
-        </h3>
-        
-        <div class="post-content-preview">
-            <p>
-                测试第一行
-
-123
-
-
+Query Key Value概念理解单词本意query：n. 疑问，质问；疑问号 ；[计] 查询 vt. 询问；对……表示疑问
+key：vt. 键入；锁上；调节…的音调；提..
             </p>
         </div>
     </a>
@@ -627,17 +630,13 @@ $ ssh-keygen -t rsa -C &quot;your_email@youremail.com&quot;
                     
                     
                     
-                    <a href="/tags/#NMT" title="NMT" rel="10">NMT</a>
+                    <a href="/tags/#NMT" title="NMT" rel="11">NMT</a>
                     
                     
                     
                     
                     
-                    <a href="/tags/#NLP" title="NLP" rel="6">NLP</a>
-                    
-                    
-                    
-                    
+                    <a href="/tags/#NLP" title="NLP" rel="7">NLP</a>
                     
                     
                     
@@ -651,11 +650,15 @@ $ ssh-keygen -t rsa -C &quot;your_email@youremail.com&quot;
                     
                     
                     
-                    <a href="/tags/#Transformer" title="Transformer" rel="2">Transformer</a>
+                    <a href="/tags/#深度学习" title="深度学习" rel="6">深度学习</a>
                     
                     
                     
-                    <a href="/tags/#深度学习" title="深度学习" rel="5">深度学习</a>
+                    <a href="/tags/#Transformer" title="Transformer" rel="3">Transformer</a>
+                    
+                    
+                    
+                    
                     
                     
                     
@@ -811,6 +814,21 @@ $ ssh-keygen -t rsa -C &quot;your_email@youremail.com&quot;
 
 <!--wechat title img-->
 <img class="wechat-title-img" src="/images/wangye.jpg">
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 
 </html>

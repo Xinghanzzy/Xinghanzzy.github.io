@@ -80,7 +80,7 @@
                         
 							
                         <li>
-                            <a href="/Tags/">Tags</a>
+                            <a href="/tags/">tags</a>
                         </li>
 							
 						
@@ -218,6 +218,39 @@ Normalization  先做 和 后做
 
 
 
+<div class="post-preview " style="background-image: url('/images/post-bg-2015.jpg')">
+    <a href="/2019/03/11/Transformer-master阅读/">
+        <h2 class="post-title">
+            Transformer阅读
+        </h2>
+        <p class="post-meta">
+            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-03-11
+        </p>
+        
+        <h3 class="post-subtitle">
+            Transformer-master代码阅读
+        </h3>
+        
+        <div class="post-content-preview">
+            <p>
+                
+我的的博客
+机器翻译模型Transformer代码详细解析
+代码地址
+
+Transformer动机：前几天和同学讨论一下decoder对mask是否有优化，发现自己对tensor shape记得并不好，这两天再过一次 加深一下印象并记录
+代码：17年老代码，好处是写的很简单
+数据预处理 pre..
+            </p>
+        </div>
+    </a>
+
+</div>
+
+<hr>
+
+
+
 
 <!-- 翻页 pager -->
 
@@ -307,17 +340,13 @@ Normalization  先做 和 后做
                     
                     
                     
-                    <a href="/tags/#NMT" title="NMT" rel="10">NMT</a>
+                    <a href="/tags/#NMT" title="NMT" rel="11">NMT</a>
                     
                     
                     
                     
                     
-                    <a href="/tags/#NLP" title="NLP" rel="6">NLP</a>
-                    
-                    
-                    
-                    
+                    <a href="/tags/#NLP" title="NLP" rel="7">NLP</a>
                     
                     
                     
@@ -331,11 +360,15 @@ Normalization  先做 和 后做
                     
                     
                     
-                    <a href="/tags/#Transformer" title="Transformer" rel="2">Transformer</a>
+                    <a href="/tags/#深度学习" title="深度学习" rel="6">深度学习</a>
                     
                     
                     
-                    <a href="/tags/#深度学习" title="深度学习" rel="5">深度学习</a>
+                    <a href="/tags/#Transformer" title="Transformer" rel="3">Transformer</a>
+                    
+                    
+                    
+                    
                     
                     
                     
@@ -491,6 +524,21 @@ Normalization  先做 和 后做
 
 <!--wechat title img-->
 <img class="wechat-title-img" src="/images/wangye.jpg">
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 
 </html>

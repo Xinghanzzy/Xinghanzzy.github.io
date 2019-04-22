@@ -80,7 +80,7 @@
                         
 							
                         <li>
-                            <a href="/Tags/">Tags</a>
+                            <a href="/tags/">tags</a>
                         </li>
 							
 						
@@ -148,6 +148,59 @@
     <div class="row">
         <div class="col-lg-8 col-lg-offset-1 col-md-8 col-md-offset-1 col-sm-12 col-xs-12 post-container">
             <!-- Main Content -->
+
+
+
+<div class="post-preview " style="background-image: url('/images/post-bg-desk.jpg')">
+    <a href="/2019/04/22/Backtranslation-and-source/">
+        <h2 class="post-title">
+            Back-Translation和源语端数据增强
+        </h2>
+        <p class="post-meta">
+            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-04-22
+        </p>
+        
+        <div class="post-content-preview">
+            <p>
+                Back-Translation源语端数据增强这是自动化所张家俊老师2016年的ACL文章《Exploiting Source-side Monolingual Data in Neural Machine Translation》
+摘要我们两种方法来充分利用NMT中的源边单语数据。 
+
+第一种..
+            </p>
+        </div>
+    </a>
+
+</div>
+
+<hr>
+
+
+
+<div class="post-preview " style="background-image: url('/images/home-bg-o.jpg')">
+    <a href="/2019/04/18/Train-DeepLearning/">
+        <h2 class="post-title">
+            Train in DeepLearn
+        </h2>
+        <p class="post-meta">
+            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-04-18
+        </p>
+        
+        <div class="post-content-preview">
+            <p>
+                
+自己看的记录文档
+
+epoch、stepstotal = total * epochtrain_steps = total*5/(batchsize*4)/workergpu
+finetuning
+finetuning是使用一样的词表进行训练
+模型(output dir)里面放置预训练好的模型..
+            </p>
+        </div>
+    </a>
+
+</div>
+
+<hr>
 
 
 
@@ -343,72 +396,6 @@ https://blog.csdn.net/luoxiaolin_love/article/details/82258069
 
 
 
-<div class="post-preview " style="background-image: url('img/post-bg-kuaidi.jpg')">
-    <a href="/2019/03/18/梯度弥散 梯度爆炸 过拟合/">
-        <h2 class="post-title">
-            深度学习概念：梯度弥散 梯度爆炸 过拟合 batchsize
-        </h2>
-        <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-03-18
-        </p>
-        
-        <h3 class="post-subtitle">
-            梯度弥散 梯度爆炸 过拟合 batchsize Adam Attention
-        </h3>
-        
-        <div class="post-content-preview">
-            <p>
-                
-自己看的记录笔记
-参考文献
-解决梯度消失和梯度弥散的方法 
-注意力机制（Attention Mechanism）在自然语言处理中的应用
-真正的完全图解Seq2Seq Attention模型
-优化方法总结：SGD，Momentum，AdaGrad，RMSProp，Adam
-梯度下降优化算法总结
-..
-            </p>
-        </div>
-    </a>
-
-</div>
-
-<hr>
-
-
-
-<div class="post-preview " style="background-image: url('img/post-bg-debug.png')">
-    <a href="/2019/03/14/Transformer norm 先做后做/">
-        <h2 class="post-title">
-            Transformer norm 先做后做
-        </h2>
-        <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-03-14
-        </p>
-        
-        <h3 class="post-subtitle">
-            Transformer layer normalization 先做后做
-        </h3>
-        
-        <div class="post-content-preview">
-            <p>
-                
-并不适合阅读的个人文档。
-
-Normalization  先做 和 后做
-
-后做是传统做法
-后做是 input x ,  x residual 到后面, x 进行function(multi-head attention),  f(x) 进行dropout，df(x) + x  （residu..
-            </p>
-        </div>
-    </a>
-
-</div>
-
-<hr>
-
-
-
 
 <!-- 翻页 pager -->
 
@@ -502,17 +489,13 @@ Normalization  先做 和 后做
                     
                     
                     
-                    <a href="/tags/#NMT" title="NMT" rel="10">NMT</a>
+                    <a href="/tags/#NMT" title="NMT" rel="11">NMT</a>
                     
                     
                     
                     
                     
-                    <a href="/tags/#NLP" title="NLP" rel="6">NLP</a>
-                    
-                    
-                    
-                    
+                    <a href="/tags/#NLP" title="NLP" rel="7">NLP</a>
                     
                     
                     
@@ -526,11 +509,15 @@ Normalization  先做 和 后做
                     
                     
                     
-                    <a href="/tags/#Transformer" title="Transformer" rel="2">Transformer</a>
+                    <a href="/tags/#深度学习" title="深度学习" rel="6">深度学习</a>
                     
                     
                     
-                    <a href="/tags/#深度学习" title="深度学习" rel="5">深度学习</a>
+                    <a href="/tags/#Transformer" title="Transformer" rel="3">Transformer</a>
+                    
+                    
+                    
+                    
                     
                     
                     
@@ -686,6 +673,21 @@ Normalization  先做 和 后做
 
 <!--wechat title img-->
 <img class="wechat-title-img" src="/images/wangye.jpg">
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 
 </html>
