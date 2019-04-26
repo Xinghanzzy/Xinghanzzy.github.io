@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>wmt19</title>
+      <link href="/2019/04/23/wmt19/"/>
+      <url>/2019/04/23/wmt19/</url>
+      
+        <content type="html"><![CDATA[<h1 id="WMT有效方法"><a href="#WMT有效方法" class="headerlink" title="WMT有效方法"></a>WMT有效方法</h1><h2 id="Back-Translation"><a href="#Back-Translation" class="headerlink" title="Back-Translation"></a>Back-Translation</h2><h4 id="zh2en"><a href="#zh2en" class="headerlink" title="zh2en"></a>zh2en</h4><p>back-translation with beam search </p><h4 id="de2en"><a href="#de2en" class="headerlink" title="de2en"></a>de2en</h4><p>back-translation with sampling </p><h2 id="DLV"><a href="#DLV" class="headerlink" title="DLV"></a>DLV</h2><p>30层深层</p><h2 id="Distillation-by-ensemble-teacher"><a href="#Distillation-by-ensemble-teacher" class="headerlink" title="Distillation by ensemble teacher"></a>Distillation by ensemble teacher</h2><p>用DLV 8model的ensemble结果做数据然后在8个模型上finetuning</p><p>之后再挑选模型ensemble</p><h2 id="Hypothesis-combination"><a href="#Hypothesis-combination" class="headerlink" title="Hypothesis combination"></a>Hypothesis combination</h2><p>多个ensemble模型的nbest拿出来做reranking</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> NMT </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Back-Translation和源语端数据增强</title>
       <link href="/2019/04/22/Backtranslation-and-source/"/>
       <url>/2019/04/22/Backtranslation-and-source/</url>
@@ -25,7 +44,7 @@
     
     
     <entry>
-      <title>Train in DeepLearn</title>
+      <title>Train in Deep Learning</title>
       <link href="/2019/04/18/Train-DeepLearning/"/>
       <url>/2019/04/18/Train-DeepLearning/</url>
       
@@ -151,9 +170,9 @@
             
             <tag> NMT </tag>
             
-            <tag> 深度学习 </tag>
-            
             <tag> Transformer </tag>
+            
+            <tag> 深度学习 </tag>
             
         </tags>
       
@@ -204,11 +223,11 @@
     
     
     <entry>
-      <title>FFN MLP dense 权重矩阵 全连接</title>
-      <link href="/2019/03/11/FFN%20MLP%20dense%20%E6%9D%83%E9%87%8D%E7%9F%A9%E9%98%B5%20%E5%85%A8%E8%BF%9E%E6%8E%A5/"/>
-      <url>/2019/03/11/FFN%20MLP%20dense%20%E6%9D%83%E9%87%8D%E7%9F%A9%E9%98%B5%20%E5%85%A8%E8%BF%9E%E6%8E%A5/</url>
+      <title>Softmax and Normalization</title>
+      <link href="/2019/03/11/Softmax%20and%20Normalization/"/>
+      <url>/2019/03/11/Softmax%20and%20Normalization/</url>
       
-        <content type="html"><![CDATA[<blockquote><p>参考文章，感谢作者付出。</p><p><a href="https://blog.csdn.net/blogshinelee/article/details/84826837/" target="_blank" rel="noopener">直观理解神经网络最后一层全连接+Softmax</a></p><p><a href="https://blog.csdn.net/zhq9695/article/details/84337984/" target="_blank" rel="noopener">花书+吴恩达深度学习（一）前馈神经网络（多层感知机 MLP）</a></p><p><a href="https://blog.csdn.net/qq_31713935/article/details/78784408/" target="_blank" rel="noopener">如何理解softmax </a></p><p><a href="https://blog.csdn.net/leviopku/article/details/83109422/" target="_blank" rel="noopener">【AI数学】Batch-Normalization详细解析</a></p><p><a href="https://xinghanzzy.github.io/">我的的博客</a></p><p>一句话：FNN=MLP=n<em>dense=n</em>relu(Wx+b) </p></blockquote><h1 id="FeedForward"><a href="#FeedForward" class="headerlink" title="FeedForward"></a>FeedForward</h1><p>FNN FFN？傻傻分不清楚 </p><p><strong>前馈神经网络</strong>（feedforward neural network），又称作<strong>深度前馈网络</strong>（deep feedforward network）、<strong>多层感知机</strong>（multilayer perceptron，MLP） </p><p>每一个神经元由<strong>一个线性拟合</strong>和<strong>一个非线性激活函数</strong>组成 </p><p>不同层之间就是全连接</p><p><strong>我们的任务就是找到权值和偏置这些参数的值，使得输出的东西让我们满意，达到我们的要求。</strong> </p><p>我的理解是 输入经过一层（放大），然后在经过一层（缩小）</p><p>层的选择 $dense $还有 $conv1d$ 都有，和同学讨论，谷歌的transformer实现用的<strong>卷积</strong>，听说是卷积快一些。</p><h1 id="MLP"><a href="#MLP" class="headerlink" title="MLP"></a>MLP</h1><p>多层感知器（MLP，Multilayer Perceptron）是一种前馈人工神经网络模型 </p><p>也叫人工神经网络（ANN，Artificial Neural Network） </p><p>除了输入输出层，它中间可以有多个隐层，最简单的MLP只含一个隐层，即三层的结构 </p><p><img src="https://ws1.sinaimg.cn/large/4ac7f217ly1g0zzty4jbuj207x03mwer.jpg" alt></p><p>多层感知机层与层之间是全连接的（全连接的意思就是：上一层的任何一个神经元与下一层的所有神经元都有连接） </p><h1 id="全连接层-dense"><a href="#全连接层-dense" class="headerlink" title="全连接层 dense"></a>全连接层 dense</h1><p>全连接层的每一个结点都与上一层的所有结点相连，用来把前边提取到的特征综合起来。由于其全相连的特性，一般全连接层的参数也是最多的。 </p><p><strong>全连接层</strong>将<strong>权重矩阵</strong>与输入向量相乘再加上偏置 </p><p><img src="https://ws1.sinaimg.cn/large/4ac7f217ly1g1001xjzuqj20b00bb74v.jpg" alt="一维全连接"></p><p>​                                          一维全连接</p><p><img src="https://ws1.sinaimg.cn/large/4ac7f217ly1g10023khdej20dz0dpwfd.jpg" alt="二维全连接层 "></p><p>​                                        二维全连接层</p><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">dense(</span><br><span class="line">    inputs,</span><br><span class="line">    units,</span><br><span class="line">    activation=<span class="literal">None</span>,</span><br><span class="line">    use_bias=<span class="literal">True</span>,</span><br><span class="line">    kernel_initializer=<span class="literal">None</span>,</span><br><span class="line">    bias_initializer=tf.zeros_initializer(),</span><br><span class="line">    kernel_regularizer=<span class="literal">None</span>,</span><br><span class="line">    bias_regularizer=<span class="literal">None</span>,</span><br><span class="line">    activity_regularizer=<span class="literal">None</span>,</span><br><span class="line">    trainable=<span class="literal">True</span>,</span><br><span class="line">    name=<span class="literal">None</span>,</span><br><span class="line">    reuse=<span class="literal">None</span></span><br><span class="line">)</span><br><span class="line"><span class="comment"># inputs: 输入数据，2维tensor.</span></span><br><span class="line"><span class="comment"># units: 该层的神经单元结点数。</span></span><br><span class="line"><span class="comment"># activation: 激活函数.</span></span><br><span class="line"><span class="comment"># use_bias: Boolean型，是否使用偏置项.</span></span><br><span class="line"><span class="comment"># kernel_initializer: 卷积核的初始化器.</span></span><br><span class="line"><span class="comment"># bias_initializer: 偏置项的初始化器，默认初始化为0.</span></span><br><span class="line"><span class="comment"># kernel_regularizer: 卷积核化的正则化，可选.</span></span><br><span class="line"><span class="comment"># bias_regularizer: 偏置项的正则化，可选.</span></span><br><span class="line"><span class="comment"># activity_regularizer: 输出的正则化函数.</span></span><br><span class="line"><span class="comment"># trainable: Boolean型，表明该层的参数是否参与训练。如果为真则变量加入到图集合中GraphKeys.TRAINABLE_VARIABLES (see tf.Variable).</span></span><br><span class="line"><span class="comment"># name: 层的名字.</span></span><br><span class="line"><span class="comment"># reuse: Boolean型, 是否重复使用参数.</span></span><br><span class="line"><span class="comment"># 全连接层执行操作 outputs = activation(inputs.kernel + bias)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果执行结果不想进行激活操作，则设置activation=None。</span></span><br></pre></td></tr></table></figure>]]></content>
+        <content type="html"><![CDATA[<blockquote><p><a href="https://blog.csdn.net/red_stone1/article/details/80687921/" target="_blank" rel="noopener">三分钟带你对 Softmax 划重点</a></p><p><a href="https://www.zhihu.com/question/38102762/answer/85238569?utm_source=wechat_session&amp;utm_medium=social&amp;utm_oi=629421655403925504/" target="_blank" rel="noopener">深度学习中 Batch Normalization为什么效果好？-知乎</a></p><p><a href="https://zhuanlan.zhihu.com/p/33173246/" target="_blank" rel="noopener">详解深度学习中的Normalization，BN/LN/WN</a></p><p><a href="https://xinghanzzy.github.io/">我的的博客</a></p></blockquote><h1 id="Softmax"><a href="#Softmax" class="headerlink" title="Softmax"></a>Softmax</h1><p>在数学，尤其是概率论和相关领域中，Softmax函数，或称归一化 指数函数，是逻辑函数的一种推广。</p><p>Softmax函数实际上是有限项离散概率分布的梯度对数归一化。</p><p>它能将一个含任意实数的K维向量  “压缩”到另一个K维实向量  中，使得每一个元素的范围都在$(0, 1)$之间，并且所有元素的和为$1$。</p><script type="math/tex; mode=display">S_i=\frac {e^{V_i}} {\sum_{i}^{c} {e^{V_i}}}</script><p>在实际应用中遇到提前$padding$时候将$V_i$设置为$-2^{32}+1$这种情况</p><p>为了是经过$Softmax$之后可以把值变为0</p><h1 id="Normalization"><a href="#Normalization" class="headerlink" title="Normalization"></a>Normalization</h1><h2 id="Batch-Normalization"><a href="#Batch-Normalization" class="headerlink" title="Batch Normalization"></a>Batch Normalization</h2><h3 id="what"><a href="#what" class="headerlink" title="what"></a>what</h3><p>​    顾名思义，batch normalization嘛，就是“批规范化”咯。Google在ICML文中描述的非常清晰，即在每次SGD时，通过mini-batch来对相应的activation做规范化操作，<strong>使得结果（输出信号各个维度）的均值为0，方差为1.</strong> </p><p>​    最后的“scale and shift”操作则是为了让因训练所需而“刻意”加入的BN能够有可能还原最初的输入（即当<img src="https://www.zhihu.com/equation?tex=%5Cgamma%5E%7B%28k%29%7D%3D%5Csqrt%7BVar%5Bx%5E%7B%28k%29%7D%5D%7D%2C+%5Cbeta%5E%7B%28k%29%7D%3DE%5Bx%5E%7B%28k%29%7D%5D" alt="\gamma^{(k)}=\sqrt{Var[x^{(k)}]}, \beta^{(k)}=E[x^{(k)}]">   $\gamma^{(k)}=\sqrt{Var[x^{(k)}]}, \beta^{(k)}=E[x^{(k)}]$ 时候，相当于未做normalization），从而保证整个network的capacity（容量）。（有关capacity的解释：实际上BN可以看作是在原模型上加入的“新操作”，这个新操作很大可能会改变某层原来的输入。当然也可能不改变，不改变的时候就是“还原原来输入”。如此一来，既可以改变同时也可以保持原输入，那么模型的容纳能力（capacity）就提升了。）</p><p><img src="https://pic2.zhimg.com/9ad70be49c408d464c71b8e9a006d141_r.jpg" alt="preview"> </p><h3 id="where"><a href="#where" class="headerlink" title="where"></a>where</h3><p>​    BN可以应用于网络中任意的activation set。文中还特别指出在CNN中，BN应作用在非线性映射前，即对做规范化。 </p><h3 id="why"><a href="#why" class="headerlink" title="why"></a>why</h3><p>​    说到底，BN的提出还是为了克服深度神经网络难以训练的弊病。其实BN背后的insight非常简单，只是在文章中被Google复杂化了。</p><blockquote><p>首先来说说“Internal Covariate Shift”。文章的title除了BN这样一个关键词，还有一个便是“ICS”。</p><p>大家都知道在统计机器学习中的一个经典假设是“源空间（source domain）和目标空间（target domain）的数据分布（distribution）是一致的”。如果不一致，那么就出现了新的机器学习问题，如，transfer learning/domain adaptation等。</p><p>covariate shift就是分布不一致假设之下的一个分支问题，它是指源空间和目标空间的条件概率是一致的，但是其边缘概率不同，即：对所有<img src="https://www.zhihu.com/equation?tex=x%5Cin+%5Cmathcal%7BX%7D" alt="x\in \mathcal{X}">,<img src="https://www.zhihu.com/equation?tex=P_s%28Y%7CX%3Dx%29%3DP_t%28Y%7CX%3Dx%29" alt="P_s(Y|X=x)=P_t(Y|X=x)">，但是<img src="https://www.zhihu.com/equation?tex=P_s%28X%29%5Cne+P_t%28X%29" alt="P_s(X)\ne P_t(X)">. 大家细想便会发现，的确，对于神经网络的各层输出，由于它们经过了层内操作作用，其分布显然与各层对应的输入信号分布不同，而且差异会随着网络深度增大而增大，可是它们所能“指示”的样本标记（label）仍然是不变的，这便符合了covariate shift的定义。由于是对层间信号的分析，也即是“internal”的来由。</p></blockquote><p>那BN到底是什么原理呢？说到底还是<strong>为了防止“梯度弥散”</strong>。关于梯度弥散，大家都知道一个简单的栗子：<img src="https://www.zhihu.com/equation?tex=0.9%5E%7B30%7D%5Capprox+0.04" alt="0.9^{30}\approx 0.04">。在BN中，是通过将activation规范为均值和方差一致的手段使得原本会减小的activation的scale变大。可以说是一种更有效的local response normalization方法（见4.2.1节）。</p><p>梯度弥散、梯度爆炸</p><blockquote><p>靠近输出层的hidden layer 梯度大，参数更新快，所以很快就会收敛；</p><p>而靠近输入层的hidden layer 梯度小，参数更新慢，几乎就和初始状态一样，随机分布。</p><p>在上面的四层隐藏层网络结构中，第一层比第四层慢了接近100倍！！</p><p>这种现象就是梯度弥散（vanishing gradient problem）。而在另一种情况中，前面layer的梯度通过训练变大，而后面layer的梯度指数级增大，这种现象又叫做梯度爆炸(exploding gradient problem)。</p><p>总的来说，就是在这个深度网络中，梯度相当不稳定(unstable)。</p></blockquote><script type="math/tex; mode=display">\gamma^{(k)}=\sqrt{Var[x^{(k)}]}, \beta^{(k)}=E[x^{(k)}]</script><p><strong>Batch Normalization —— 纵向规范化</strong> </p><p><strong>Layer Normalization —— 横向规范化</strong> </p><blockquote><p>原来的网络，如果简单地增加深度，会导致梯度弥散或梯度爆炸。对于该问题的解决方法是正则化初始化和中间的正则化层（Batch Normalization），这样的话可以训练几十层的网络。</p><p>虽然通过上述方法能够训练了，但是又会出现另一个问题，就是退化问题，网络层数增加，但是在训练集上的准确率却饱和甚至下降了。这个不能解释为overfitting，因为overfit应该表现为在训练集上表现更好才对。退化问题说明了深度网络不能很简单地被很好地优化。</p><p>residual</p></blockquote>]]></content>
       
       
       
@@ -216,9 +235,9 @@
             
             <tag> NMT </tag>
             
-            <tag> NLP </tag>
-            
             <tag> TensorFlow </tag>
+            
+            <tag> NLP </tag>
             
         </tags>
       
@@ -239,9 +258,9 @@
             
             <tag> NMT </tag>
             
-            <tag> NLP </tag>
-            
             <tag> TensorFlow </tag>
+            
+            <tag> NLP </tag>
             
         </tags>
       
@@ -262,9 +281,9 @@
             
             <tag> NMT </tag>
             
-            <tag> NLP </tag>
-            
             <tag> TensorFlow </tag>
+            
+            <tag> NLP </tag>
             
             <tag> Transformer </tag>
             
@@ -275,11 +294,11 @@
     
     
     <entry>
-      <title>Softmax and Normalization</title>
-      <link href="/2019/03/11/Softmax%20and%20Normalization/"/>
-      <url>/2019/03/11/Softmax%20and%20Normalization/</url>
+      <title>FFN MLP dense 权重矩阵 全连接</title>
+      <link href="/2019/03/11/FFN%20MLP%20dense%20%E6%9D%83%E9%87%8D%E7%9F%A9%E9%98%B5%20%E5%85%A8%E8%BF%9E%E6%8E%A5/"/>
+      <url>/2019/03/11/FFN%20MLP%20dense%20%E6%9D%83%E9%87%8D%E7%9F%A9%E9%98%B5%20%E5%85%A8%E8%BF%9E%E6%8E%A5/</url>
       
-        <content type="html"><![CDATA[<blockquote><p><a href="https://blog.csdn.net/red_stone1/article/details/80687921/" target="_blank" rel="noopener">三分钟带你对 Softmax 划重点</a></p><p><a href="https://www.zhihu.com/question/38102762/answer/85238569?utm_source=wechat_session&amp;utm_medium=social&amp;utm_oi=629421655403925504/" target="_blank" rel="noopener">深度学习中 Batch Normalization为什么效果好？-知乎</a></p><p><a href="https://zhuanlan.zhihu.com/p/33173246/" target="_blank" rel="noopener">详解深度学习中的Normalization，BN/LN/WN</a></p><p><a href="https://xinghanzzy.github.io/">我的的博客</a></p></blockquote><h1 id="Softmax"><a href="#Softmax" class="headerlink" title="Softmax"></a>Softmax</h1><p>在数学，尤其是概率论和相关领域中，Softmax函数，或称归一化 指数函数，是逻辑函数的一种推广。</p><p>Softmax函数实际上是有限项离散概率分布的梯度对数归一化。</p><p>它能将一个含任意实数的K维向量  “压缩”到另一个K维实向量  中，使得每一个元素的范围都在$(0, 1)$之间，并且所有元素的和为$1$。</p><script type="math/tex; mode=display">S_i=\frac {e^{V_i}} {\sum_{i}^{c} {e^{V_i}}}</script><p>在实际应用中遇到提前$padding$时候将$V_i$设置为$-2^{32}+1$这种情况</p><p>为了是经过$Softmax$之后可以把值变为0</p><h1 id="Normalization"><a href="#Normalization" class="headerlink" title="Normalization"></a>Normalization</h1><h2 id="Batch-Normalization"><a href="#Batch-Normalization" class="headerlink" title="Batch Normalization"></a>Batch Normalization</h2><h3 id="what"><a href="#what" class="headerlink" title="what"></a>what</h3><p>​    顾名思义，batch normalization嘛，就是“批规范化”咯。Google在ICML文中描述的非常清晰，即在每次SGD时，通过mini-batch来对相应的activation做规范化操作，<strong>使得结果（输出信号各个维度）的均值为0，方差为1.</strong> </p><p>​    最后的“scale and shift”操作则是为了让因训练所需而“刻意”加入的BN能够有可能还原最初的输入（即当<img src="https://www.zhihu.com/equation?tex=%5Cgamma%5E%7B%28k%29%7D%3D%5Csqrt%7BVar%5Bx%5E%7B%28k%29%7D%5D%7D%2C+%5Cbeta%5E%7B%28k%29%7D%3DE%5Bx%5E%7B%28k%29%7D%5D" alt="\gamma^{(k)}=\sqrt{Var[x^{(k)}]}, \beta^{(k)}=E[x^{(k)}]">   $\gamma^{(k)}=\sqrt{Var[x^{(k)}]}, \beta^{(k)}=E[x^{(k)}]$ 时候，相当于未做normalization），从而保证整个network的capacity（容量）。（有关capacity的解释：实际上BN可以看作是在原模型上加入的“新操作”，这个新操作很大可能会改变某层原来的输入。当然也可能不改变，不改变的时候就是“还原原来输入”。如此一来，既可以改变同时也可以保持原输入，那么模型的容纳能力（capacity）就提升了。）</p><p><img src="https://pic2.zhimg.com/9ad70be49c408d464c71b8e9a006d141_r.jpg" alt="preview"> </p><h3 id="where"><a href="#where" class="headerlink" title="where"></a>where</h3><p>​    BN可以应用于网络中任意的activation set。文中还特别指出在CNN中，BN应作用在非线性映射前，即对做规范化。 </p><h3 id="why"><a href="#why" class="headerlink" title="why"></a>why</h3><p>​    说到底，BN的提出还是为了克服深度神经网络难以训练的弊病。其实BN背后的insight非常简单，只是在文章中被Google复杂化了。</p><blockquote><p>首先来说说“Internal Covariate Shift”。文章的title除了BN这样一个关键词，还有一个便是“ICS”。</p><p>大家都知道在统计机器学习中的一个经典假设是“源空间（source domain）和目标空间（target domain）的数据分布（distribution）是一致的”。如果不一致，那么就出现了新的机器学习问题，如，transfer learning/domain adaptation等。</p><p>covariate shift就是分布不一致假设之下的一个分支问题，它是指源空间和目标空间的条件概率是一致的，但是其边缘概率不同，即：对所有<img src="https://www.zhihu.com/equation?tex=x%5Cin+%5Cmathcal%7BX%7D" alt="x\in \mathcal{X}">,<img src="https://www.zhihu.com/equation?tex=P_s%28Y%7CX%3Dx%29%3DP_t%28Y%7CX%3Dx%29" alt="P_s(Y|X=x)=P_t(Y|X=x)">，但是<img src="https://www.zhihu.com/equation?tex=P_s%28X%29%5Cne+P_t%28X%29" alt="P_s(X)\ne P_t(X)">. 大家细想便会发现，的确，对于神经网络的各层输出，由于它们经过了层内操作作用，其分布显然与各层对应的输入信号分布不同，而且差异会随着网络深度增大而增大，可是它们所能“指示”的样本标记（label）仍然是不变的，这便符合了covariate shift的定义。由于是对层间信号的分析，也即是“internal”的来由。</p></blockquote><p>那BN到底是什么原理呢？说到底还是<strong>为了防止“梯度弥散”</strong>。关于梯度弥散，大家都知道一个简单的栗子：<img src="https://www.zhihu.com/equation?tex=0.9%5E%7B30%7D%5Capprox+0.04" alt="0.9^{30}\approx 0.04">。在BN中，是通过将activation规范为均值和方差一致的手段使得原本会减小的activation的scale变大。可以说是一种更有效的local response normalization方法（见4.2.1节）。</p><p>梯度弥散、梯度爆炸</p><blockquote><p>靠近输出层的hidden layer 梯度大，参数更新快，所以很快就会收敛；</p><p>而靠近输入层的hidden layer 梯度小，参数更新慢，几乎就和初始状态一样，随机分布。</p><p>在上面的四层隐藏层网络结构中，第一层比第四层慢了接近100倍！！</p><p>这种现象就是梯度弥散（vanishing gradient problem）。而在另一种情况中，前面layer的梯度通过训练变大，而后面layer的梯度指数级增大，这种现象又叫做梯度爆炸(exploding gradient problem)。</p><p>总的来说，就是在这个深度网络中，梯度相当不稳定(unstable)。</p></blockquote><script type="math/tex; mode=display">\gamma^{(k)}=\sqrt{Var[x^{(k)}]}, \beta^{(k)}=E[x^{(k)}]</script><p><strong>Batch Normalization —— 纵向规范化</strong> </p><p><strong>Layer Normalization —— 横向规范化</strong> </p><blockquote><p>原来的网络，如果简单地增加深度，会导致梯度弥散或梯度爆炸。对于该问题的解决方法是正则化初始化和中间的正则化层（Batch Normalization），这样的话可以训练几十层的网络。</p><p>虽然通过上述方法能够训练了，但是又会出现另一个问题，就是退化问题，网络层数增加，但是在训练集上的准确率却饱和甚至下降了。这个不能解释为overfitting，因为overfit应该表现为在训练集上表现更好才对。退化问题说明了深度网络不能很简单地被很好地优化。</p><p>residual</p></blockquote>]]></content>
+        <content type="html"><![CDATA[<blockquote><p>参考文章，感谢作者付出。</p><p><a href="https://blog.csdn.net/blogshinelee/article/details/84826837/" target="_blank" rel="noopener">直观理解神经网络最后一层全连接+Softmax</a></p><p><a href="https://blog.csdn.net/zhq9695/article/details/84337984/" target="_blank" rel="noopener">花书+吴恩达深度学习（一）前馈神经网络（多层感知机 MLP）</a></p><p><a href="https://blog.csdn.net/qq_31713935/article/details/78784408/" target="_blank" rel="noopener">如何理解softmax </a></p><p><a href="https://blog.csdn.net/leviopku/article/details/83109422/" target="_blank" rel="noopener">【AI数学】Batch-Normalization详细解析</a></p><p><a href="https://xinghanzzy.github.io/">我的的博客</a></p><p>一句话：FNN=MLP=n<em>dense=n</em>relu(Wx+b) </p></blockquote><h1 id="FeedForward"><a href="#FeedForward" class="headerlink" title="FeedForward"></a>FeedForward</h1><p>FNN FFN？傻傻分不清楚 </p><p><strong>前馈神经网络</strong>（feedforward neural network），又称作<strong>深度前馈网络</strong>（deep feedforward network）、<strong>多层感知机</strong>（multilayer perceptron，MLP） </p><p>每一个神经元由<strong>一个线性拟合</strong>和<strong>一个非线性激活函数</strong>组成 </p><p>不同层之间就是全连接</p><p><strong>我们的任务就是找到权值和偏置这些参数的值，使得输出的东西让我们满意，达到我们的要求。</strong> </p><p>我的理解是 输入经过一层（放大），然后在经过一层（缩小）</p><p>层的选择 $dense $还有 $conv1d$ 都有，和同学讨论，谷歌的transformer实现用的<strong>卷积</strong>，听说是卷积快一些。</p><h1 id="MLP"><a href="#MLP" class="headerlink" title="MLP"></a>MLP</h1><p>多层感知器（MLP，Multilayer Perceptron）是一种前馈人工神经网络模型 </p><p>也叫人工神经网络（ANN，Artificial Neural Network） </p><p>除了输入输出层，它中间可以有多个隐层，最简单的MLP只含一个隐层，即三层的结构 </p><p><img src="https://ws1.sinaimg.cn/large/4ac7f217ly1g0zzty4jbuj207x03mwer.jpg" alt></p><p>多层感知机层与层之间是全连接的（全连接的意思就是：上一层的任何一个神经元与下一层的所有神经元都有连接） </p><h1 id="全连接层-dense"><a href="#全连接层-dense" class="headerlink" title="全连接层 dense"></a>全连接层 dense</h1><p>全连接层的每一个结点都与上一层的所有结点相连，用来把前边提取到的特征综合起来。由于其全相连的特性，一般全连接层的参数也是最多的。 </p><p><strong>全连接层</strong>将<strong>权重矩阵</strong>与输入向量相乘再加上偏置 </p><p><img src="https://ws1.sinaimg.cn/large/4ac7f217ly1g1001xjzuqj20b00bb74v.jpg" alt="一维全连接"></p><p>​                                          一维全连接</p><p><img src="https://ws1.sinaimg.cn/large/4ac7f217ly1g10023khdej20dz0dpwfd.jpg" alt="二维全连接层 "></p><p>​                                        二维全连接层</p><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">dense(</span><br><span class="line">    inputs,</span><br><span class="line">    units,</span><br><span class="line">    activation=<span class="literal">None</span>,</span><br><span class="line">    use_bias=<span class="literal">True</span>,</span><br><span class="line">    kernel_initializer=<span class="literal">None</span>,</span><br><span class="line">    bias_initializer=tf.zeros_initializer(),</span><br><span class="line">    kernel_regularizer=<span class="literal">None</span>,</span><br><span class="line">    bias_regularizer=<span class="literal">None</span>,</span><br><span class="line">    activity_regularizer=<span class="literal">None</span>,</span><br><span class="line">    trainable=<span class="literal">True</span>,</span><br><span class="line">    name=<span class="literal">None</span>,</span><br><span class="line">    reuse=<span class="literal">None</span></span><br><span class="line">)</span><br><span class="line"><span class="comment"># inputs: 输入数据，2维tensor.</span></span><br><span class="line"><span class="comment"># units: 该层的神经单元结点数。</span></span><br><span class="line"><span class="comment"># activation: 激活函数.</span></span><br><span class="line"><span class="comment"># use_bias: Boolean型，是否使用偏置项.</span></span><br><span class="line"><span class="comment"># kernel_initializer: 卷积核的初始化器.</span></span><br><span class="line"><span class="comment"># bias_initializer: 偏置项的初始化器，默认初始化为0.</span></span><br><span class="line"><span class="comment"># kernel_regularizer: 卷积核化的正则化，可选.</span></span><br><span class="line"><span class="comment"># bias_regularizer: 偏置项的正则化，可选.</span></span><br><span class="line"><span class="comment"># activity_regularizer: 输出的正则化函数.</span></span><br><span class="line"><span class="comment"># trainable: Boolean型，表明该层的参数是否参与训练。如果为真则变量加入到图集合中GraphKeys.TRAINABLE_VARIABLES (see tf.Variable).</span></span><br><span class="line"><span class="comment"># name: 层的名字.</span></span><br><span class="line"><span class="comment"># reuse: Boolean型, 是否重复使用参数.</span></span><br><span class="line"><span class="comment"># 全连接层执行操作 outputs = activation(inputs.kernel + bias)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果执行结果不想进行激活操作，则设置activation=None。</span></span><br></pre></td></tr></table></figure>]]></content>
       
       
       
@@ -287,9 +306,9 @@
             
             <tag> NMT </tag>
             
-            <tag> NLP </tag>
-            
             <tag> TensorFlow </tag>
+            
+            <tag> NLP </tag>
             
         </tags>
       
@@ -331,9 +350,9 @@
             
             <tag> NMT </tag>
             
-            <tag> 概念理解 </tag>
-            
             <tag> NLP </tag>
+            
+            <tag> 概念理解 </tag>
             
             <tag> transformer </tag>
             

@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        Transformer阅读｜Boxiao&#39;s blog
+        wmt19｜Boxiao&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="http://xinghanzzy.github.io/2019/03/11/Transformer-master阅读/">
+    <link rel="canonical" href="http://xinghanzzy.github.io/2019/04/23/wmt19/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -127,13 +127,13 @@
 <!--only post-->
 
 
-<img class="wechat-title-img" src="null/images/post-bg-2015.jpg">
+<img class="wechat-title-img" src="null/images/post-bg-hacker.jpg">
 
 
 <style>
     
     header.intro-header {
-        background-image: url('/images/post-bg-2015.jpg?imageView2/1/w/1400/h/400/interlace/1/q/90')
+        background-image: url('/images/post-bg-hacker.jpg?imageView2/1/w/1400/h/400/interlace/1/q/90')
     }
 
     
@@ -144,25 +144,17 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>Transformer阅读</h1>
-                    
-                    <h2 class="subheading">Transformer-master代码阅读</h2>
+                    <h1>wmt19</h1>
                     
                     <span class="meta">
-                         作者 XH
+                         作者 Boxiao Zhang
                         <span>
-                          日期 2019-03-11
+                          日期 2019-04-23
                          </span>
                     </span>
                     <div class="tags text-center">
                         
                         <a class="tag" href="/tags/#NMT" title="NMT">NMT</a>
-                        
-                        <a class="tag" href="/tags/#TensorFlow" title="TensorFlow">TensorFlow</a>
-                        
-                        <a class="tag" href="/tags/#NLP" title="NLP">NLP</a>
-                        
-                        <a class="tag" href="/tags/#Transformer" title="Transformer">Transformer</a>
                         
                     </div>
                 </div>
@@ -171,7 +163,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            Transformer阅读
+            wmt19
         </span>
     </div>
 </header>
@@ -182,115 +174,21 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <blockquote>
-<p><a href="https://xinghanzzy.github.io/">我的的博客</a></p>
-<p><a href="https://blog.csdn.net/mijiaoxiaosan/article/details/74909076" target="_blank" rel="noopener">机器翻译模型Transformer代码详细解析</a></p>
-<p><a href="https://github.com/Xinghanzzy/transformer-simple/" target="_blank" rel="noopener">代码地址</a></p>
-</blockquote>
-<h1 id="Transformer"><a href="#Transformer" class="headerlink" title="Transformer"></a>Transformer</h1><p>动机：前几天和同学讨论一下decoder对mask是否有优化，发现自己对tensor shape记得并不好，这两天再过一次 加深一下印象并记录</p>
-<p>代码：17年老代码，好处是写的很简单</p>
-<h2 id="数据预处理-prepro"><a href="#数据预处理-prepro" class="headerlink" title="数据预处理 prepro"></a>数据预处理 prepro</h2><ol>
-<li>洗数据：去除非拉丁字符 </li>
-<li>词频统计，$Counter()$，降序</li>
-<li>PAD,UNK, S, /S，文件开头，数量1000000000</li>
-</ol>
-<h2 id="train"><a href="#train" class="headerlink" title="train"></a>train</h2><ul>
-<li><p>加载词表，$2*2$个list，$lang2idx，idx2lang$</p>
-</li>
-<li><p>构图</p>
-<ul>
-<li><p>默认图</p>
-</li>
-<li><p>读取数据batch，输出为ont-hot idx</p>
-<blockquote>
-<p>input : none</p>
-<p>output : (N, T)     </p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># N：batch_size  T:maxlen 最大句长</span></span><br><span class="line">self.x, self.y, self.num_batch = get_batch_data() <span class="comment"># (N, T) 		</span></span><br><span class="line">	lang2idx，idx2lang</span><br><span class="line">	word2idx: OOV-&gt;"&lt;UNK&gt;"(1) 句尾+&lt;/S&gt;</span><br><span class="line">    <span class="comment"># x和y后面pad上x和y初始元素个数和句子最大长度差的那么多数值 0</span></span><br><span class="line">    <span class="comment"># pad 垫，填补</span></span><br><span class="line">	PAD:补全<span class="number">0</span>，maxlen</span><br><span class="line">    num_batch = len(X) // hp.batch_size <span class="comment"># 整除</span></span><br><span class="line">    <span class="comment"># Create Queues</span></span><br><span class="line">    input_queues = tf.train.slice_input_producer([X, Y])</span><br><span class="line">    x, y = tf.train.shuffle_batch</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>decoder input : 句尾去掉\S句首+ S (2)</p>
-<blockquote>
-<p>input :  (N, T) </p>
-<p>output : (N, T) </p>
-<p>用self.y来初始化解码器的输入。decoder_inputs和self.y相比，去掉了最后一个句子结束符，而在每句话最前面加了一个初始化为2的id，即S</p>
-<p> scr: 今天天气很好。&lt;/S&gt;<br> tgt:     It’s a beautiful day today .     &lt;/S&gt;<br> pred:    <s> It’s a   beautiful day today .<br>   “<s>“ predict “It’s” ,   “<s> It’s” predict “a” , “.” predict “</s>“</s></s></p>
-</blockquote>
-</li>
-<li><p>$2*2$个list，$lang2idx，idx2lang$</p>
-</li>
-<li><p>$encoder$</p>
-<blockquote>
-<p>input :  (N, T) </p>
-<p>output : (N, T, num_units)   # num_units:隐层大小</p>
-</blockquote>
-<ul>
-<li><p>embedding</p>
-<blockquote>
-<p>input :  (N, T) </p>
-<p>output : (N, T, num_units)\</p>
-</blockquote>
-<p>建立 $lookup_table$ (vocab_size, num_units)</p>
-<p>zero_pad:第一行置0</p>
-<p>tf.nn.embedding_lookup(lookup_table, inputs)</p>
-<p>这里推测输出 inputs中idx对应的vector组成的tensor(N, T, num_units)</p>
-<p>缩放：scale  $outputs * (\sqrt{ num_units })$</p>
-</li>
-<li><p>positional_encoding</p>
-<p>sin cos 常量 或者 调用embedding</p>
-</li>
-<li><p>dropout</p>
-<p>​    0，其他缩放1/(1-rate)</p>
-<p>​    maybe 可训练更新</p>
-</li>
-<li><p>6层attention encoder self-attention</p>
-<blockquote>
-<p>input :  (N, T, num_units)   </p>
-<p>output : (N, T, num_units)</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">multihead_attention(queries=self.enc, keys=self.enc, num_units=hp.hidden_units, num_heads=hp.num_heads, dropout_rate=hp.dropout_rate, is_training=is_training, causality=<span class="literal">False</span>)</span><br><span class="line">    Q K V = dense num_units relu <span class="comment"># (N, T_q, C) (N, T_k, C) (N, T_k, C)</span></span><br><span class="line">    Q_ K_ V_ =	最后一维拆head分，在第一维拼接cat <span class="comment"># (h*N, T_q, C/h) (h*N, T_k, C/h)  </span></span><br><span class="line">    Q_ matmul V_  <span class="comment"># (h*N, T_q, T_k)  矩阵乘法 Q 乘 k 转置</span></span><br><span class="line">    scale：outputs / (num_units)**<span class="number">0.5</span></span><br><span class="line">    Key Masking</span><br><span class="line">     生成矩阵，key中最后一维加<span class="number">0</span>的变为无穷小 <span class="number">-2</span>**<span class="number">32</span>+<span class="number">1</span> <span class="comment"># (h*N, T_q, T_k)</span></span><br><span class="line">    <span class="comment"># causality参数告知我们是否屏蔽未来序列的信息</span></span><br><span class="line">        <span class="comment"># 首先定义一个和outputs后两维的shape相同shape（T_q,T_k）的一个张量（矩阵）。 </span></span><br><span class="line">        <span class="comment"># 然后将该矩阵转为三角阵tril。三角阵中，对于每一个T_q,</span></span><br><span class="line">        <span class="comment"># 凡是那些大于它角标的T_k值全都为</span></span><br><span class="line">        <span class="comment"># 0，这样作为mask就可以让query只取它之前的key（self attention中query即key）。</span></span><br><span class="line">        <span class="comment"># 由于该规律适用于所有query，接下来仍用tile扩展堆叠其第一个维度，构成masks，</span></span><br><span class="line">        <span class="comment"># shape为(h*N, T_q,T_k).</span></span><br><span class="line">    softmax</span><br><span class="line">    Query Masking <span class="comment"># (h*N, T_q, T_k)</span></span><br><span class="line">    dropout</span><br><span class="line">    outputs = tf.matmul(outputs, V_) <span class="comment"># ( h*N, T_q, C/h)</span></span><br><span class="line">    concat <span class="comment"># (N, T_q, C)</span></span><br><span class="line">    +querys <span class="comment"># residual</span></span><br><span class="line">    normalize <span class="comment"># 随训练会变</span></span><br><span class="line">feedforward()</span><br><span class="line">	两层卷积之间加了relu非线性操作。</span><br><span class="line">    之后是residual操作加上inputs残差</span><br><span class="line">    然后是normalize</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>$decoder$</p>
-<ul>
-<li><p>word embedding </p>
-</li>
-<li><p>positional embedding </p>
-</li>
-<li><p>dropout  # (N, T_q, C)</p>
-</li>
-<li><p>6层attention decoder self-attention  encoder-decoder attention</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">self:</span><br><span class="line">	causality参数为<span class="literal">True</span>，以屏蔽未来的信息</span><br><span class="line">e-d:</span><br><span class="line">	query:decoder</span><br><span class="line">	keys: encoder</span><br><span class="line">	<span class="comment"># causality设置为False 解码器中的信息都可以被用到</span></span><br><span class="line">feedforward:</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li><p>准确率 acc</p>
-</li>
-<li><p>smooth</p>
-<p>​    self.y转为one_hot之后用module中定义的label_smoothing函数进行平滑操作 </p>
-<p>​    ((1-epsilon) * inputs) + (epsilon / K) ：0-&gt;很小的树 1-&gt;接近1的数</p>
-</li>
-<li><p>loss：</p>
-<p>​     预测值 和 平滑后的lable 交叉熵</p>
-</li>
-</ul>
+                <h1 id="WMT有效方法"><a href="#WMT有效方法" class="headerlink" title="WMT有效方法"></a>WMT有效方法</h1><h2 id="Back-Translation"><a href="#Back-Translation" class="headerlink" title="Back-Translation"></a>Back-Translation</h2><h4 id="zh2en"><a href="#zh2en" class="headerlink" title="zh2en"></a>zh2en</h4><p>back-translation with beam search </p>
+<h4 id="de2en"><a href="#de2en" class="headerlink" title="de2en"></a>de2en</h4><p>back-translation with sampling </p>
+<h2 id="DLV"><a href="#DLV" class="headerlink" title="DLV"></a>DLV</h2><p>30层深层</p>
+<h2 id="Distillation-by-ensemble-teacher"><a href="#Distillation-by-ensemble-teacher" class="headerlink" title="Distillation by ensemble teacher"></a>Distillation by ensemble teacher</h2><p>用DLV 8model的ensemble结果做数据然后在8个模型上finetuning</p>
+<p>之后再挑选模型ensemble</p>
+<h2 id="Hypothesis-combination"><a href="#Hypothesis-combination" class="headerlink" title="Hypothesis combination"></a>Hypothesis combination</h2><p>多个ensemble模型的nbest拿出来做reranking</p>
 
                 <hr>
                 
 
                 <ul class="pager">
                     
-                    <li class="previous">
-                        <a href="/2019/03/11/TensorFlow函数/" data-toggle="tooltip" data-placement="top" title="TensorFlow函数">&larr; Previous Post</a>
-                    </li>
-                    
                     
                     <li class="next">
-                        <a href="/2019/03/11/FFN MLP dense 权重矩阵 全连接/" data-toggle="tooltip" data-placement="top" title="FFN MLP dense 权重矩阵 全连接">Next Post &rarr;</a>
+                        <a href="/2019/04/22/Backtranslation-and-source/" data-toggle="tooltip" data-placement="top" title="Back-Translation和源语端数据增强">Next Post &rarr;</a>
                     </li>
                     
                 </ul>
@@ -309,7 +207,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Transformer"><span class="toc-text">Transformer</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据预处理-prepro"><span class="toc-text">数据预处理 prepro</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#train"><span class="toc-text">train</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#WMT有效方法"><span class="toc-text">WMT有效方法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Back-Translation"><span class="toc-text">Back-Translation</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#zh2en"><span class="toc-text">zh2en</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#de2en"><span class="toc-text">de2en</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DLV"><span class="toc-text">DLV</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Distillation-by-ensemble-teacher"><span class="toc-text">Distillation by ensemble teacher</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hypothesis-combination"><span class="toc-text">Hypothesis combination</span></a></li></ol>
                 </div>
             </div>
         </div>
@@ -332,12 +230,6 @@
                     <div class="tags">
                         
                         <a class="tag" href="/tags/#NMT" title="NMT">NMT</a>
-                        
-                        <a class="tag" href="/tags/#TensorFlow" title="TensorFlow">TensorFlow</a>
-                        
-                        <a class="tag" href="/tags/#NLP" title="NLP">NLP</a>
-                        
-                        <a class="tag" href="/tags/#Transformer" title="Transformer">Transformer</a>
                         
                     </div>
                 </section>
