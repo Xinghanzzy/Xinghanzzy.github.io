@@ -152,7 +152,7 @@
 
 
 <div class="post-preview " style="background-image: url('/images/post-bg-2015.jpg')">
-    <a href="/2019/03/08/Subword BPE 理解/">
+    <a href="/2019/03/08/Subword BPE 理解&sentence piece/">
         <h2 class="post-title">
             Subword BPE 理解
         </h2>
@@ -169,13 +169,12 @@
                 
 正所谓前人栽树，后人乘凉。
 感谢夏天的米米阳光CSDN
+感谢自然语言处理之_SentencePiece分词
 感谢subword-units
 我的的博客
 
-Subwordlearn BPEBPE词表学习，首先统计词表词频，然后每个单词表示为一个字符序列，并加上一个特殊的词尾标记 
-
- apple eat 这两个的e是不同的
-appale    e..
+SubwordBPE的训练和解码范围都是一个词的范围。 
+learn BPEBPE词表学习，首先统计词表词频，然后每个单词表示为一个字符序列..
             </p>
         </div>
     </a>
@@ -275,9 +274,7 @@ appale    e..
                     
                     
                     
-                    
-                    
-                    <a href="/tags/#NMT" title="NMT" rel="12">NMT</a>
+                    <a href="/tags/#NMT" title="NMT" rel="14">NMT</a>
                     
                     
                     
@@ -289,21 +286,27 @@ appale    e..
                     
                     
                     
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
                     <a href="/tags/#Transformer" title="Transformer" rel="3">Transformer</a>
                     
                     
                     
+                    
+                    
+                    
+                    
+                    
+                    
                     <a href="/tags/#深度学习" title="深度学习" rel="6">深度学习</a>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
                     
                     
                     
@@ -459,21 +462,6 @@ appale    e..
 
 <!--wechat title img-->
 <img class="wechat-title-img" src="/images/wangye.jpg">
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 
 </html>

@@ -151,6 +151,38 @@
 
 
 
+<div class="post-preview " style="background-image: url('/images/post-bg-debug.png')">
+    <a href="/2019/03/14/Transformer norm 先做后做/">
+        <h2 class="post-title">
+            Transformer norm 先做后做
+        </h2>
+        <p class="post-meta">
+            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-03-14
+        </p>
+        
+        <h3 class="post-subtitle">
+            Transformer layer normalization 先做后做
+        </h3>
+        
+        <div class="post-content-preview">
+            <p>
+                
+并不适合阅读的个人文档。
+
+Normalization  先做 和 后做
+
+后做是传统做法
+后做是 input x ,  x residual 到后面, x 进行function(multi-head attention),  f(x) 进行dropout，df(x) + x  （residu..
+            </p>
+        </div>
+    </a>
+
+</div>
+
+<hr>
+
+
+
 <div class="post-preview " style="background-image: url('/images/post-bg-2015.jpg')">
     <a href="/2019/03/11/TensorFlow函数/">
         <h2 class="post-title">
@@ -238,6 +270,38 @@ Transformer动机：前几天和同学讨论一下decoder对mask是否有优化�
 【AI数学】Batch-Normalization详细解析
 我的的博客
 一句话：FNN=MLP=ndense=nrelu(Wx+b)..
+            </p>
+        </div>
+    </a>
+
+</div>
+
+<hr>
+
+
+
+<div class="post-preview " style="background-image: url('/images/post-bg-2015.jpg')">
+    <a href="/2019/03/11/Softmax and Normalization/">
+        <h2 class="post-title">
+            Softmax and Normalization
+        </h2>
+        <p class="post-meta">
+            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-03-11
+        </p>
+        
+        <h3 class="post-subtitle">
+            Softmax and Normalization理解
+        </h3>
+        
+        <div class="post-content-preview">
+            <p>
+                
+三分钟带你对 Softmax 划重点
+深度学习中 Batch Normalization为什么效果好？-知乎
+详解深度学习中的Normalization，BN/LN/WN
+我的的博客
+
+Softmax在数学，尤其是概率论和相关领域中，Softmax函数，或称归一化 指数函数，是逻辑函数的一种推..
             </p>
         </div>
     </a>
@@ -373,9 +437,7 @@ key：vt. 键入；锁上；调节…的音调；提..
                     
                     
                     
-                    
-                    
-                    <a href="/tags/#NMT" title="NMT" rel="12">NMT</a>
+                    <a href="/tags/#NMT" title="NMT" rel="14">NMT</a>
                     
                     
                     
@@ -387,21 +449,27 @@ key：vt. 键入；锁上；调节…的音调；提..
                     
                     
                     
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
                     <a href="/tags/#Transformer" title="Transformer" rel="3">Transformer</a>
                     
                     
                     
+                    
+                    
+                    
+                    
+                    
+                    
                     <a href="/tags/#深度学习" title="深度学习" rel="6">深度学习</a>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
                     
                     
                     
@@ -557,21 +625,6 @@ key：vt. 键入；锁上；调节…的音调；提..
 
 <!--wechat title img-->
 <img class="wechat-title-img" src="/images/wangye.jpg">
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 
 </html>
