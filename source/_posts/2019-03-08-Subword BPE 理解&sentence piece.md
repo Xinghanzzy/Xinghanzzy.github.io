@@ -257,3 +257,9 @@ print(sp.EncodeAsPieces(text))
 
 <https://github.com/google/sentencepiece#train-sentencepiece-model>
 
+
+
+# Word piece
+
+Todo
+
