@@ -14,7 +14,9 @@ tags:								#标签
 
 > 正所谓前人栽树，后人乘凉。
 >
-> 感谢[夏天的米米阳光CSDN](http://blog.csdn.net/u013453936/article/details/80878412(http://www.runoob.com/w3cnote/git-guide.html)
+> 感谢[夏天的米米阳光CSDN](http://blog.csdn.net/u013453936/article/details/80878412)
+>
+> 感谢[自然语言处理之_SentencePiece分词](https://www.jianshu.com/p/9b93cef1ca56 )
 >
 > 感谢[subword-units](http://plmsmile.github.io/2017/10/19/subword-units/)
 >
@@ -23,6 +25,8 @@ tags:								#标签
 
 
 # Subword
+
+**BPE的训练和解码范围都是一个词的范围。** 
 
 
 
@@ -37,6 +41,8 @@ BPE词表学习，首先统计词表词频，然后每个单词表示为一个�
 > eat		e
 
 取出频率最高的‘a b’加入词表中，并将‘a b’替换为‘ab’,重复过程
+
+codec文件中保存的就是训练过程的字符对，文件中最开始的是训练时最先保存的字符，即具有较高的优先级。 
 
 ### 例子
 
@@ -71,6 +77,10 @@ the ir</w>
 a y</w>
 $ date</w>
 ```
+
+## apply bpe
+
+按在词的范围中进行编码的，首先将词拆成一个一个的字符，然后按照训练得到的codec文件中的字符对来合并。 
 
 
 
@@ -171,4 +181,79 @@ print (vocabs)
 ```
 
 
+
+# Sentence piece
+
+## 说明
+
+​	SentencePiece是一个google开源的自然语言处理工具包。网上是这么描述它的：数据驱动、跨语言、高性能、轻量级——面向神经网络文本生成系统的无监督文本词条化工具。 
+
+​	一些组合常常出现，但事先并不知道，于是我们想让机器自动学习经常组合出现的短语和词。SentencePiece就是来解决这个问题的。它需要大量文本来训练。
+
+ SentencePiece的用途不限于自然语言处理，记得DC之前有一个药物分子筛选的比赛，蛋白质的一级结构是氨基酸序列，需要研究氨基酸序列片断，片断的长度又是不固定的，此处就可以用SentencePiece进行切分。原理是重复出现次数多的片断，就认为是一个意群（词）。(**未经过验证**)
+
+## 安装
+
+ SentencePiece分为两部分：训练模型和使用模型，训练模型部分是用C语言实现的，可编成二进程程序执行，训练结果是生成一个model和一个词典文件。
+
+ 模型使用部分同时支持二进制程序和Python调用两种方式，训练完生成的词典数据是明文，可编辑，因此也可以用任何语言读取和使用。
+
+#### 1) 在Ubuntu系统中安装Python支持
+
+```shell
+$ sudo pip install SentencePiece
+```
+
+#### 2) 下载源码
+
+```shell
+$ git clone https://github.com/google/sentencepiece
+$ cd sentencepiece
+$ ./autogen.sh
+$ ./confiture; make; sudo make install # 注意需要先安装autogen,automake等编译工具
+```
+
+## 训练模型
+
+```shell
+$ spm_train --input=/tmp/a.txt --model_prefix=/tmp/test
+# --input指定需要训练的文本文件，--model_prefix指定训练好的模型名，本例中生成/tmp/test.model和/tmp/test.vocab两个文件，vocab是词典信息。
+$ spm_train --input=<input> --model_prefix=<model_name> --vocab_size=8000 --model_type=<type>
+```
+
+model_name为保存的模型为model_name.model,词典为model_name.vocab,词典大小可以人为设定vocab  _size.训练模型包括`unigram` (default), `bpe`, `char`, or `word`四种类型. 
+
+## 使用模型
+
+#### (1) 命令行调用
+
+```shell
+$ echo "食材上不会有这样的纠结" | spm_encode --model=/tmp/test.model
+```
+
+#### (2) Python程序调用
+
+```python
+import sentencepiece as spm
+
+sp = spm.SentencePieceProcessor()
+text = "食材上不会有这样的纠结" 
+
+sp.Load("/tmp/test.model") 
+print(sp.EncodeAsPieces(text))
+```
+
+## 使用技巧
+
+ 如果我们分析某个领域相关问题，可以用该领域的书籍和文档去训练模型。并不限于被分析的内容本身。训练数据越多，模型效果越好。更多参数及用法，请见git上的说明文件。
+
+## 参考
+
+#### (1) 用法示例
+
+<https://pypi.org/project/sentencepiece/0.0.0/>
+
+#### (2) 训练示例
+
+<https://github.com/google/sentencepiece#train-sentencepiece-model>
 
