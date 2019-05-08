@@ -152,22 +152,33 @@
 
 
 <div class="post-preview " style="background-image: url('/images/home-bg-o.jpg')">
-    <a href="/2019/05/07/t/">
+    <a href="/2019/05/08/Transformer-fairseq/">
         <h2 class="post-title">
-            机器翻译工具、trick
+            Transformer(fairseq)阅读
         </h2>
         <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-05-07
+            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-05-08
         </p>
         
         <div class="post-content-preview">
             <p>
-                
-分词工具 sentence piece
-数据选择 Xenc
-对齐工具 fastalign
+                前置条件使用pycharm单步调试(远程)
+
+网上博客很详细
+记得环境变量设置
+
+Transformertrain.py 训练
+函数主入口(if __name__ == ‘__main__’:)
+
+加载parser
+判断分布式与多进程，一般都为False
+
+跳入main函数
 
 
+
+main函数
+..
             </p>
         </div>
     </a>
@@ -364,11 +375,19 @@ https://www.jianshu.com/p/abe7515c6c7f
                     
                     
                     
-                    <a href="/tags/#TensorFlow" title="TensorFlow" rel="4">TensorFlow</a>
-                    
                     
                     
                     <a href="/tags/#NLP" title="NLP" rel="7">NLP</a>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    <a href="/tags/#TensorFlow" title="TensorFlow" rel="4">TensorFlow</a>
+                    
+                    
                     
                     
                     
@@ -376,15 +395,7 @@ https://www.jianshu.com/p/abe7515c6c7f
                     
                     
                     
-                    
-                    
-                    
-                    
-                    
-                    
                     <a href="/tags/#深度学习" title="深度学习" rel="6">深度学习</a>
-                    
-                    
                     
                     
                     
@@ -548,6 +559,21 @@ https://www.jianshu.com/p/abe7515c6c7f
 
 <!--wechat title img-->
 <img class="wechat-title-img" src="/images/wangye.jpg">
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 
 </html>

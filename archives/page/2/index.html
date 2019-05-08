@@ -378,26 +378,28 @@ Normalization  先做 和 后做
 
 
 <div class="post-preview " style="background-image: url('/images/post-bg-2015.jpg')">
-    <a href="/2019/03/11/TensorFlow函数/">
+    <a href="/2019/03/11/Transformer-master阅读/">
         <h2 class="post-title">
-            TensorFlow函数
+            Transformer阅读
         </h2>
         <p class="post-meta">
             <i class="fa fa-calendar" aria-hidden="true"></i> 2019-03-11
         </p>
         
         <h3 class="post-subtitle">
-            TensorFlow常用函数
+            Transformer-master代码阅读
         </h3>
         
         <div class="post-content-preview">
             <p>
                 
 我的的博客
+机器翻译模型Transformer代码详细解析
+代码地址
 
-TensorFlow函数tf.tile# key_masks：(N, T_k) N:batch_size T:maxlentf.tile(key_masks, [num_heads, 1]) # (h*N, T_k)
-在input的每一维 复制对应的次数
-tile([x, y],..
+Transformer动机：前几天和同学讨论一下decoder对mask是否有优化，发现自己对tensor shape记得并不好，这两天再过一次 加深一下印象并记录
+代码：17年老代码，好处是写的很简单
+数据预处理 pre..
             </p>
         </div>
     </a>
@@ -509,11 +511,19 @@ tile([x, y],..
                     
                     
                     
-                    <a href="/tags/#TensorFlow" title="TensorFlow" rel="4">TensorFlow</a>
-                    
                     
                     
                     <a href="/tags/#NLP" title="NLP" rel="7">NLP</a>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    <a href="/tags/#TensorFlow" title="TensorFlow" rel="4">TensorFlow</a>
+                    
+                    
                     
                     
                     
@@ -521,15 +531,7 @@ tile([x, y],..
                     
                     
                     
-                    
-                    
-                    
-                    
-                    
-                    
                     <a href="/tags/#深度学习" title="深度学习" rel="6">深度学习</a>
-                    
-                    
                     
                     
                     
@@ -693,6 +695,21 @@ tile([x, y],..
 
 <!--wechat title img-->
 <img class="wechat-title-img" src="/images/wangye.jpg">
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 
 </html>

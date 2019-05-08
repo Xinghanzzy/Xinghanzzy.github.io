@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="何言丝竹">
+    <meta name="keyword" content="NLP,机器翻译,深度学习">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/images/favicon3.png">
+    <link rel="alternate" type="application/atom+xml" title="Boxiao" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        Transformer(fairseq)阅读｜Boxiao&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="http://xinghanzzy.github.io/2019/05/08/Transformer-fairseq/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('/images/lion-blur-bg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost="true" data-istags="false
+" data-ishome="false">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Boxiao
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img" src="null/images/home-bg-o.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/images/home-bg-o.jpg?imageView2/1/w/1400/h/400/interlace/1/q/90')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>Transformer(fairseq)阅读</h1>
+                    
+                    <span class="meta">
+                         作者 Boxiao Zhang
+                        <span>
+                          日期 2019-05-08
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#NMT" title="NMT">NMT</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            Transformer(fairseq)阅读
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h1 id="前置条件"><a href="#前置条件" class="headerlink" title="前置条件"></a>前置条件</h1><p>使用pycharm单步调试(远程)</p>
+<ul>
+<li>网上博客很详细</li>
+<li>记得环境变量设置</li>
+</ul>
+<h1 id="Transformer"><a href="#Transformer" class="headerlink" title="Transformer"></a>Transformer</h1><h2 id="train-py-训练"><a href="#train-py-训练" class="headerlink" title="train.py 训练"></a>train.py 训练</h2><ul>
+<li><p>函数主入口(if __name__ == ‘__main__’:)</p>
+<ol>
+<li>加载parser</li>
+<li><p>判断分布式与多进程，一般都为False</p>
+</li>
+<li><p>跳入main函数</p>
+</li>
+</ol>
+</li>
+<li><p>main函数</p>
+<ol>
+<li><p>加载并打印args(默认max_tokens=6000)</p>
+<blockquote>
+<p>batchsize?</p>
+</blockquote>
+</li>
+<li><p>设置随机数种子</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">torch.manual_seed(args.seed)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Setup task, e.g., translation, language modeling</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">setup_task</span><span class="params">(args)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> TASK_REGISTRY[args.task].setup_task(args)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Load dataset splits</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">load_dataset_splits(task, [<span class="string">'train'</span>, <span class="string">'valid'</span>])</span><br><span class="line">task.load_dataset(split, combine=<span class="literal">True</span>) <span class="comment"># Translation</span></span><br><span class="line">src_datasets = []</span><br><span class="line">tgt_datasets = []</span><br><span class="line">data_paths = self.args.data <span class="comment"># 路径 可以多路径 train tain1 </span></span><br><span class="line"><span class="comment"># 可以多个校验集</span></span><br><span class="line"><span class="keyword">for</span> k <span class="keyword">in</span> itertools.count():</span><br><span class="line">    split_k = split + (str(k) <span class="keyword">if</span> k &gt; <span class="number">0</span> <span class="keyword">else</span> <span class="string">''</span>)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        task.load_dataset(split_k, combine=<span class="literal">False</span>)</span><br><span class="line">        <span class="keyword">except</span> FileNotFoundError <span class="keyword">as</span> e:</span><br><span class="line">            <span class="keyword">if</span> k &gt; <span class="number">0</span>:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">                <span class="keyword">raise</span> e</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>建立模型和标准 Build model and criterion</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">model = task.build_model(args)</span><br><span class="line">criterion = task.build_criterion(args) <span class="comment"># LabelSmoothedCrossEntropyCriterion</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># transformer.py</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">build_model</span><span class="params">(cls, args, task)</span>:</span></span><br><span class="line">    base_architecture(args)</span><br><span class="line">    src_dict, tgt_dict = task.source_dictionary, task.target_dictionary <span class="comment"># load dict</span></span><br><span class="line"><span class="keyword">if</span> args.share_all_embeddings:</span><br><span class="line">	<span class="keyword">assert</span> src_dict == tgt_dict</span><br><span class="line">    <span class="keyword">assert</span> args.encoder_embed_dim == args.decoder_embed_dim</span><br><span class="line">    <span class="keyword">assert</span> args.decoder_embed_path == args.encoder_embed_path</span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    encoder_embed_tokens = build_embedding(src_dict, args.encoder_embed_dim,args.encoder_embed_path)</span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line">encoder = TransformerEncoder(args, src_dict, encoder_embed_tokens)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TransformerEncoder</span><span class="params">(FairseqEncoder)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">init</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    # <span class="title">load</span> <span class="title">embedding</span> <span class="title">args</span></span></span><br><span class="line"><span class="function">    # <span class="title">load</span> <span class="title">encoderlayer</span></span></span><br><span class="line">    self.layers = nn.ModuleList([])</span><br><span class="line">    self.layers.extend([</span><br><span class="line">            TransformerEncoderLayer(args)</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(args.encoder_layers)</span><br><span class="line">        ])</span><br><span class="line">    <span class="comment"># </span></span><br><span class="line">    </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TransformerEncoderLayer</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    In the original paper each operation (multi-head attention or FFN) is</span></span><br><span class="line"><span class="string">    postprocessed with: `dropout -&gt; add residual -&gt; layernorm`. In the</span></span><br><span class="line"><span class="string">    tensor2tensor code they suggest that learning is more robust when</span></span><br><span class="line"><span class="string">    preprocessing each layer with layernorm and postprocessing with:</span></span><br><span class="line"><span class="string">    `dropout -&gt; add residual`. We default to the approach in the paper, but the</span></span><br><span class="line"><span class="string">    tensor2tensor approach can be enabled by setting</span></span><br><span class="line"><span class="string">    *args.encoder_normalize_before* to ``True``.</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">init</span><span class="params">()</span>:</span></span><br><span class="line">        self.embed_dim = args.encoder_embed_dim</span><br><span class="line">        self.self_attn = MultiheadAttention(</span><br><span class="line">            self.embed_dim, args.encoder_attention_heads,</span><br><span class="line">            dropout=args.attention_dropout,</span><br><span class="line">        )</span><br><span class="line">        self.dropout = args.dropout</span><br><span class="line">        self.relu_dropout = args.relu_dropout</span><br><span class="line">        self.normalize_before = args.encoder_normalize_before</span><br><span class="line">        self.fc1 = Linear(self.embed_dim, args.encoder_ffn_embed_dim)</span><br><span class="line">        self.fc2 = Linear(args.encoder_ffn_embed_dim, self.embed_dim)</span><br><span class="line">        self.layer_norms = nn.ModuleList([LayerNorm(self.embed_dim) <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>)])</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MultiheadAttention</span><span class="params">(nn.Module)</span>:</span>  </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">()</span>:</span></span><br><span class="line">        in_proj_weight <span class="comment"># ??? Todo</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+</ul>
+<pre><code>6. batch处理
+
+
+
+7. build trainer
+
+8. 
+</code></pre><h1 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h1><ul>
+<li><p>打印args</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">Namespace(adam_betas='(0.9, 0.999)', adam_eps=1e-08, adaptive_softmax_cutoff=None, adaptive_softmax_dropout=0, arch='transformer_wmt_en_de', attention_dropout=0.0, bucket_cap_mb=150, clip_norm=25, criterion='label_smoothed_cross_entropy', data=['/home/zhangzheyang/package_and_data/wmt14_en_de'], ddp_backend='c10d', decoder_attention_heads=8, decoder_embed_dim=512, decoder_embed_path=None, decoder_ffn_embed_dim=2048, decoder_input_dim=512, decoder_layers=6, decoder_learned_pos=False, decoder_normalize_before=False, decoder_output_dim=512, device_id=0, distributed_backend='nccl', distributed_init_method=None, distributed_port=-1, distributed_rank=0, distributed_world_size=0, dropout=0.1, encoder_attention_heads=8, encoder_embed_dim=512, encoder_embed_path=None, encoder_ffn_embed_dim=2048, encoder_layers=6, encoder_learned_pos=False, encoder_normalize_before=False, fix_batches_to_gpus=False, fp16=False, fp16_init_scale=128, keep_interval_updates=-1, label_smoothing=0.1, left_pad_source='True', left_pad_target='False', log_format=None, log_interval=1000, lr=[0.25], lr_scheduler='inverse_sqrt', lr_shrink=0.1, max_epoch=0, max_sentences=None, max_sentences_valid=None, max_source_positions=1024, max_target_positions=1024, max_tokens=4096, max_update=100000, min_loss_scale=0.0001, min_lr=1e-09, momentum=0.99, no_epoch_checkpoints=False, no_progress_bar=False, no_save=False, no_token_positional_embeddings=False, optimizer='adam', optimizer_overrides='&#123;&#125;', raw_text=False, relu_dropout=0.0, reset_lr_scheduler=False, reset_optimizer=False, restore_file='checkpoint_last.pt', save_dir='checkpoints/transformer', save_interval=1, save_interval_updates=0, seed=1, sentence_avg=False, share_all_embeddings=False, share_decoder_input_output_embed=False, skip_invalid_size_inputs_valid_test=False, source_lang='en', target_lang='de', task='translation', train_subset='train', update_freq=[1], upsample_primary=1, valid_subset='valid', validate_interval=1, warmup_init_lr=1e-07, warmup_updates=4000, weight_decay=0.0001)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>base_architecture(args)</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">@register_model_architecture('transformer', 'transformer')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">base_architecture</span><span class="params">(args)</span>:</span></span><br><span class="line">    args.encoder_embed_path = getattr(args, <span class="string">'encoder_embed_path'</span>, <span class="literal">None</span>)</span><br><span class="line">    args.encoder_embed_dim = getattr(args, <span class="string">'encoder_embed_dim'</span>, <span class="number">512</span>)</span><br><span class="line">    args.encoder_ffn_embed_dim = getattr(args, <span class="string">'encoder_ffn_embed_dim'</span>, <span class="number">2048</span>)</span><br><span class="line">    args.encoder_layers = getattr(args, <span class="string">'encoder_layers'</span>, <span class="number">6</span>)</span><br><span class="line">    args.encoder_attention_heads = getattr(args, <span class="string">'encoder_attention_heads'</span>, <span class="number">8</span>)</span><br><span class="line">    args.encoder_normalize_before = getattr(args, <span class="string">'encoder_normalize_before'</span>, <span class="literal">False</span>)</span><br><span class="line">    args.encoder_learned_pos = getattr(args, <span class="string">'encoder_learned_pos'</span>, <span class="literal">False</span>)</span><br><span class="line">    args.decoder_embed_path = getattr(args, <span class="string">'decoder_embed_path'</span>, <span class="literal">None</span>)</span><br><span class="line">    args.decoder_embed_dim = getattr(args, <span class="string">'decoder_embed_dim'</span>, args.encoder_embed_dim)</span><br><span class="line">    args.decoder_ffn_embed_dim = getattr(args, <span class="string">'decoder_ffn_embed_dim'</span>, args.encoder_ffn_embed_dim)</span><br><span class="line">    args.decoder_layers = getattr(args, <span class="string">'decoder_layers'</span>, <span class="number">6</span>)</span><br><span class="line">    args.decoder_attention_heads = getattr(args, <span class="string">'decoder_attention_heads'</span>, <span class="number">8</span>)</span><br><span class="line">    args.decoder_normalize_before = getattr(args, <span class="string">'decoder_normalize_before'</span>, <span class="literal">False</span>)</span><br><span class="line">    args.decoder_learned_pos = getattr(args, <span class="string">'decoder_learned_pos'</span>, <span class="literal">False</span>)</span><br><span class="line">    args.attention_dropout = getattr(args, <span class="string">'attention_dropout'</span>, <span class="number">0.</span>)</span><br><span class="line">    args.relu_dropout = getattr(args, <span class="string">'relu_dropout'</span>, <span class="number">0.</span>)</span><br><span class="line">    args.dropout = getattr(args, <span class="string">'dropout'</span>, <span class="number">0.1</span>)</span><br><span class="line">    args.adaptive_softmax_cutoff = getattr(args, <span class="string">'adaptive_softmax_cutoff'</span>, <span class="literal">None</span>)</span><br><span class="line">    args.adaptive_softmax_dropout = getattr(args, <span class="string">'adaptive_softmax_dropout'</span>, <span class="number">0</span>)</span><br><span class="line">    args.share_decoder_input_output_embed = getattr(args, <span class="string">'share_decoder_input_output_embed'</span>, <span class="literal">False</span>)</span><br><span class="line">    args.share_all_embeddings = getattr(args, <span class="string">'share_all_embeddings'</span>, <span class="literal">False</span>)</span><br><span class="line">    args.no_token_positional_embeddings = getattr(args, <span class="string">'no_token_positional_embeddings'</span>, <span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line">    args.decoder_output_dim = getattr(args, <span class="string">'decoder_output_dim'</span>, args.decoder_embed_dim)</span><br><span class="line">    args.decoder_input_dim = getattr(args, <span class="string">'decoder_input_dim'</span>, args.decoder_embed_dim)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2019/05/07/trick/" data-toggle="tooltip" data-placement="top" title="机器翻译工具、trick">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前置条件"><span class="toc-text">前置条件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Transformer"><span class="toc-text">Transformer</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#train-py-训练"><span class="toc-text">train.py 训练</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#附录"><span class="toc-text">附录</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#NMT" title="NMT">NMT</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="https://hellozhaozheng.github.io/">ZZ</a></li>
+                        
+                        <li><a href="http://www.jianshu.com/u/e71990ada2fd">简书·BY</a></li>
+                        
+                        <li><a href="https://apple.com">Apple</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/ehazon">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/1254617623">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://github.com/xinghanzzy">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Boxiao 2019
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://xinghanzzy.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="/images/wangye.jpg">
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+
+</html>
